@@ -7,6 +7,7 @@ const S = styled(DefaultLayout)`
     max-width: 980px;
     width: 100%;
     margin: auto;
+    padding: 2rem;
   }
 `;
 

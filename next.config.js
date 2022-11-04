@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const withTM = require('next-transpile-modules')(['redux-persist']);
+
 const nextConfig = {
   reactStrictMode: false,
   swcMinify: true
@@ -6,7 +8,7 @@ const nextConfig = {
 
 const path = require('path');
 
-module.exports = {
+module.exports = withTM({
   ...nextConfig,
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')]
@@ -17,4 +19,4 @@ module.exports = {
       ssr: true
     }
   }
-};
+});

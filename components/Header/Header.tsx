@@ -1,5 +1,8 @@
 import { Fira_Mono } from '@next/font/google';
 import Link from 'next/link';
+import { useDispatch } from 'react-redux';
+import useRootState from '../../core/hooks/useRootState';
+import styleThemeSlice from '../../core/reducer/styleTheme';
 
 interface IProps {
   className?: string;
@@ -29,6 +32,15 @@ const firaMono = Fira_Mono({
 });
 
 const Header: React.FC<IProps> = ({ className }) => {
+  const dispatch = useDispatch();
+  const { theme } = useRootState((state) => state);
+  const handleClickToggle = () => {
+    dispatch(
+      styleThemeSlice.actions.toggle({
+        mode: theme.mode === 'light' ? 'dark' : 'light'
+      })
+    );
+  };
   return (
     <header id="header" className={`${className}`}>
       <div className="header-inner">
@@ -38,6 +50,8 @@ const Header: React.FC<IProps> = ({ className }) => {
           </span>
         </div>
       </div>
+      <button onClick={handleClickToggle}>토글</button>
+      {theme.mode}
     </header>
   );
 };

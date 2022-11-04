@@ -10,6 +10,9 @@ const S = styled(Header)`
   }
   .logo {
     font-size: 3rem;
+    a {
+      text-decoration: none;
+    }
   }
 `;
 

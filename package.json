@@ -11,6 +11,7 @@
   "dependencies": {
     "@next/font": "^13.0.2",
     "@notionhq/client": "^2.2.2",
+    "@reduxjs/toolkit": "^1.8.6",
     "@types/node": "18.11.9",
     "@types/react": "18.0.24",
     "@types/react-dom": "18.0.8",
@@ -19,6 +20,10 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-query": "^3.39.2",
+    "react-redux": "^8.0.5",
+    "redux": "^4.2.0",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-persist": "^6.0.0",
     "sass": "^1.55.0",
     "styled-components": "^5.3.6",
     "styled-reset": "^4.4.2",
@@ -26,6 +31,7 @@
   },
   "devDependencies": {
     "@types/styled-components": "^5.1.26",
-    "babel-plugin-styled-components": "^2.0.7"
+    "babel-plugin-styled-components": "^2.0.7",
+    "next-transpile-modules": "^10.0.0"
   }
 }

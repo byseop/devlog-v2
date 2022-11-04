@@ -1,8 +1,8 @@
 export const DEFINED_FILTER = {
   STATUS_PUBLISHED: {
-    type: 'status' as const,
+    type: 'status',
     status: {
-      equals: 'In progress'
+      equals: 'Done'
     },
     property: 'yt%5C%3E'
   }

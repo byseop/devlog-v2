@@ -48,7 +48,13 @@ export default function handler(
 
         const response = await notion.databases.query({
           database_id,
-          filter
+          filter,
+          sorts: [
+            {
+              property: 'publishDate',
+              direction: 'descending'
+            }
+          ]
         });
 
         const data = response.results as PageObjectResponse[];

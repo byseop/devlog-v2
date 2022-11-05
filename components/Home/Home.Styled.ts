@@ -3,9 +3,15 @@ import Home from './Home';
 
 const S = styled(Home)`
   .title-wrap {
-    margin: 52px 0 32px 0;
+    margin: 5.2rem 0 3.2rem 0;
     font-size: 3.6rem;
     color: var(--text1);
+  }
+
+  @media screen and (max-width: 700px) {
+    .title-wrap {
+      margin: 3rem 0;
+    }
   }
 `;
 

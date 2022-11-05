@@ -18,5 +18,8 @@ module.exports = withTM({
       displayName: true,
       ssr: true
     }
+  },
+  images: {
+    domains: ['www.notion.so']
   }
 });

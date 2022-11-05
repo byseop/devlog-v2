@@ -58,6 +58,10 @@ const GlobalStyle = createGlobalStyle<{ mode: IStyleCode }>`
   body {
     background: var(--bg-page1);
   }
+
+  a {
+    text-decoration: none;
+  }
 `;
 
 export default GlobalStyle;

@@ -56,7 +56,7 @@ const Header: React.FC<IProps> = ({ className }) => {
         </div>
         <div className="actions">
           <div className="btn-wrap">
-            <a href="https://github.com/byseop">
+            <a href="https://github.com/byseop" target="_blank">
               <span>
                 <BsGithub />
               </span>

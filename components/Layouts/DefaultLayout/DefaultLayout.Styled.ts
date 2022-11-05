@@ -6,7 +6,7 @@ const S = styled(DefaultLayout)`
   .layout-inner {
     max-width: 980px;
     width: 100%;
-    margin: auto;
+    margin: 0 auto 10rem auto;
     padding: 2rem;
   }
 `;

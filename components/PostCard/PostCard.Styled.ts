@@ -12,6 +12,7 @@ const S = styled(PostCard)`
     border-radius: 14px;
     position: relative;
     overflow: hidden;
+    transition: all 0.2s ease-out;
   }
 
   .card-contents {
@@ -21,6 +22,7 @@ const S = styled(PostCard)`
     .title {
       font-size: 3.6rem;
       margin-top: 1rem;
+      transition: color 0.2s ease-out;
     }
 
     .sub-title {
@@ -44,6 +46,18 @@ const S = styled(PostCard)`
         color: #fff;
         padding: 4px;
       }
+    }
+  }
+
+  &:hover {
+    .cover {
+      box-shadow: rgb(0 0 33 / 7%) 0px 16px 22.4px 4.8px,
+        rgb(0 0 33 / 5%) 0px 3.2px 16px 0px, rgb(0 0 33 / 7%) 0px 0px 1px 0px;
+      transform: translate3D(0, -3%, 0);
+    }
+
+    .title {
+      color: var(--primary1);
     }
   }
 `;

@@ -5,6 +5,9 @@ import type { IStyleCode } from '../core/reducer/styleTheme';
 
 const GlobalStyle = createGlobalStyle<{ mode: IStyleCode }>`
   ${reset}
+  * {
+    transition: color 0.2s ease-out;
+  }
   html {
     font-size: 10px;
     font-family: '-apple-system',

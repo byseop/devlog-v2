@@ -5,6 +5,7 @@ import useRootState from '../../core/hooks/useRootState';
 import styleThemeSlice from '../../core/reducer/styleTheme';
 
 import { IoSunny, IoMoon } from 'react-icons/io5';
+import { BsGithub } from 'react-icons/bs';
 
 interface IProps {
   className?: string;
@@ -54,6 +55,13 @@ const Header: React.FC<IProps> = ({ className }) => {
           </span>
         </div>
         <div className="actions">
+          <div className="btn-wrap">
+            <a href="https://github.com/byseop">
+              <span>
+                <BsGithub />
+              </span>
+            </a>
+          </div>
           <div className="btn-wrap">
             <button onClick={handleClickThemeToggle}>
               <span className={mode}>

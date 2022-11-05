@@ -25,7 +25,9 @@ const S = styled(Header)`
       gap: 1.5rem;
 
       .btn-wrap {
-        button {
+        button,
+        a {
+          display: block;
           position: relative;
           width: 40px;
           height: 40px;

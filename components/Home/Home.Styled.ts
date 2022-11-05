@@ -11,6 +11,7 @@ const S = styled(Home)`
   @media screen and (max-width: 700px) {
     .title-wrap {
       margin: 3rem 0;
+      font-size: 2.8rem;
     }
   }
 `;

@@ -60,6 +60,38 @@ const S = styled(PostCard)`
       color: var(--primary1);
     }
   }
+
+  @media screen and (max-width: 700px) {
+    flex-direction: column;
+    height: auto;
+    gap: 20px;
+
+    .cover {
+      width: 100%;
+      height: 200px;
+      position: relative;
+
+      img {
+        height: auto !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+      }
+    }
+
+    .card-contents {
+      .title {
+        font-size: 2.6rem;
+      }
+      .sub-title {
+        font-size: 1.6rem;
+        margin-top: 1rem;
+      }
+      .publish-date {
+        font-size: 1.4rem;
+        margin-top: 0.9rem;
+      }
+    }
+  }
 `;
 
 export default S;

@@ -9,6 +9,12 @@ const S = styled(DefaultLayout)`
     margin: 0 auto 10rem auto;
     padding: 2rem;
   }
+
+  @media screen and (max-width: 700px) {
+    .layout-inner {
+      margin-bottom: 5rem;
+    }
+  }
 `;
 
 export default S;

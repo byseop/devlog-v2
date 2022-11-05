@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-type IStyleCode = 'light' | 'dark';
+export type IStyleCode = 'light' | 'dark';
 interface IStyleThemeState {
   mode: IStyleCode;
 }
 
 const initialState: IStyleThemeState = {
-  mode: 'light'
+  mode: 'dark'
 };
 
 const styleThemeSlice = createSlice({

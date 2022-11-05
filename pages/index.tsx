@@ -9,6 +9,10 @@ export default function ({ data }: { data: Response<PageObjectResponse[]> }) {
 }
 
 export const getServerSideProps = async () => {
-  const res = await postApis.getPosts();
-  return { props: { data: res } };
+  try {
+    const res = await postApis.getPosts();
+    return { props: { data: res } };
+  } catch (e) {
+    console.error(e);
+  }
 };

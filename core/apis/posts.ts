@@ -7,5 +7,14 @@ export const postApis = {
       url: '/posts',
       method: 'GET',
       params
+    }),
+
+  getPost: (id: string) =>
+    request<PageObjectResponse>({
+      url: '/post',
+      method: 'GET',
+      params: {
+        id
+      }
     })
 };

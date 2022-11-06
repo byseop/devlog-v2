@@ -1,8 +1,9 @@
-import { useQuery, useQueryClient, UseQueryOptions } from 'react-query';
+import { useQuery, UseQueryOptions } from 'react-query';
 import { postApis } from '../apis/posts';
 
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import type { Response } from '../../interfaces';
+import type { ExtendedRecordMap } from 'notion-types';
 
 export const postsQueryKey = {
   posts: () => ['posts'] as const,
@@ -21,7 +22,12 @@ export const useGetPosts = (
 
 export const useGetPost = (
   id: string,
-  options?: UseQueryOptions<Response<PageObjectResponse[]>>
+  options?: UseQueryOptions<
+    Response<{
+      notionPage: ExtendedRecordMap;
+      post: PageObjectResponse;
+    }>
+  >
 ) => {
   return useQuery(
     postsQueryKey.post(id),

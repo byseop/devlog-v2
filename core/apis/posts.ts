@@ -1,6 +1,8 @@
 import { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import { request } from './';
 
+import type { ExtendedRecordMap } from 'notion-types';
+
 export const postApis = {
   getPosts: (params = {}) =>
     request<PageObjectResponse[]>({
@@ -10,7 +12,10 @@ export const postApis = {
     }),
 
   getPost: (id: string) =>
-    request<PageObjectResponse>({
+    request<{
+      notionPage: ExtendedRecordMap;
+      post: PageObjectResponse;
+    }>({
       url: '/post',
       method: 'GET',
       params: {

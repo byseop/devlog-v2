@@ -1,15 +1,24 @@
 import { Client } from '@notionhq/client';
-import type { IAPIError, Response } from '../../interfaces';
+import { NotionAPI } from 'notion-client';
 
+import type { IAPIError, Response } from '../../interfaces';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
+import type { ExtendedRecordMap } from 'notion-types';
 
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Response<{}> | IAPIError>
+  res: NextApiResponse<
+    | Response<{
+        notionPage: ExtendedRecordMap;
+        post: PageObjectResponse;
+      }>
+    | IAPIError
+  >
 ) {
   const page_id = req.query.id as string;
   const auth = process.env.NOTION_API_KEY;
+  const notionRenderClient = new NotionAPI();
 
   if (!page_id) {
     res.status(400).json({
@@ -35,8 +44,12 @@ export default function handler(
         const response = (await notion.pages.retrieve({
           page_id
         })) as PageObjectResponse;
+        const notionPage = await notionRenderClient.getPage(page_id);
 
-        const data = response;
+        const data = {
+          notionPage,
+          post: response
+        };
 
         res.status(200).json({
           data,

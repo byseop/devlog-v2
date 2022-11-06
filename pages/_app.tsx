@@ -6,6 +6,7 @@ import { ThemeProvider } from 'styled-components';
 import { theme } from '../styles/theme';
 import LayoutInner from '../components/Layouts/LayoutInner';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 import type { AppProps } from 'next/app';
 
@@ -35,6 +36,7 @@ export default function App({ Component, pageProps }: AppProps) {
               </LayoutInner>
             </DefaultLayout>
           </ThemeProvider>
+          <ReactQueryDevtools />
         </QueryClientProvider>
       </PersistGate>
     </Provider>

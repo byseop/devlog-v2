@@ -16,10 +16,11 @@ interface IPostProps {
   }>;
 }
 
+const Code = dynamic(() =>
+  import('react-notion-x/build/third-party/code').then((m) => m.Code)
+);
+
 const Post: React.FC<IPostProps> = ({ id, data, className }) => {
-  const Code = dynamic(() =>
-    import('react-notion-x/build/third-party/code').then((m) => m.Code)
-  );
   const { mode } = useRootState((state) => state.theme);
 
   const { data: postData } = useGetPost(id, {

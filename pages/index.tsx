@@ -18,7 +18,7 @@ export default function ({ data }: { data: Response<PageObjectResponse[]> }) {
   );
 }
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   try {
     const res = await postApis.getPosts();
     return { props: { data: res } };

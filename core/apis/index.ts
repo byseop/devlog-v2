@@ -3,7 +3,10 @@ import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import type { Response } from '../../interfaces';
 
 export const api: AxiosInstance = axios.create({
-  baseURL: 'http://localhost:3000/api',
+  baseURL:
+    process.env.APP_ENV === 'production'
+      ? 'https://devlog-v2-byseop.vercel.app/'
+      : 'http://localhost:3000/api',
   headers: {
     'Content-Type': 'application/json',
     'Accept-Language': 'ko'

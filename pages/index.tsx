@@ -18,11 +18,14 @@ export default function ({ data }: { data: Response<PageObjectResponse[]> }) {
   );
 }
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
   try {
     const res = await postApis.getPosts();
     return { props: { data: res } };
   } catch (e) {
     console.error(e);
+    return {
+      notFound: true
+    };
   }
 };

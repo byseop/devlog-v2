@@ -13,7 +13,7 @@ const S = styled(DefaultLayout)`
   @media screen and (max-width: 700px) {
     .layout-inner {
       margin-bottom: 5rem;
-      padding: 1rem;
+      padding: 2rem;
     }
   }
 `;

@@ -13,7 +13,6 @@ interface IPostCardProps {
 }
 
 const PostCard: React.FC<IPostCardProps> = ({ data, className }) => {
-  console.log(data);
   const title = data.properties.title as {
     type: 'title';
     title: Array<RichTextItemResponse>;

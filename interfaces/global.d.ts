@@ -22,3 +22,4 @@ declare type SelectColor =
   | 'purple'
   | 'pink'
   | 'red';
+declare type TextRequest = string;

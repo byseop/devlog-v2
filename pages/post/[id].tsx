@@ -1,9 +1,13 @@
 import Post from '../../components/Post';
 import { postApis } from '../../core/apis/posts';
+import Meta from '../../components/Meta';
 
 import type { GetServerSideProps } from 'next';
 import type { ExtendedRecordMap } from 'notion-types';
-import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
+import type {
+  PageObjectResponse,
+  RichTextItemResponse
+} from '@notionhq/client/build/src/api-endpoints';
 import type { Response } from '../../interfaces';
 
 import 'react-notion-x/src/styles.css';
@@ -19,7 +23,28 @@ interface IPostPageProps {
 }
 
 export default function ({ id, data }: IPostPageProps) {
-  return <Post id={id} data={data} />;
+  const title = data?.data.post.properties.title as {
+    type: 'title';
+    title: Array<RichTextItemResponse>;
+    id: string;
+  };
+
+  const subTitle = data?.data.post.properties.subTitle as {
+    type: 'rich_text';
+    rich_text: Array<RichTextItemResponse>;
+    id: string;
+  };
+
+  return (
+    <>
+      <Meta
+        title={title.title[0].plain_text || ''}
+        description={subTitle.rich_text[0].plain_text || ''}
+        url={`https://byseop.dev/post/@${id}`}
+      />
+      <Post id={id} data={data} />
+    </>
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {

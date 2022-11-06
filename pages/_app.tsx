@@ -7,6 +7,7 @@ import { theme } from '../styles/theme';
 import LayoutInner from '../components/Layouts/LayoutInner';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import NextNProgress from 'nextjs-progressbar';
 
 import type { AppProps } from 'next/app';
 
@@ -30,6 +31,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <PersistGate persistor={persistor} loading={null}>
         <QueryClientProvider client={queryClient}>
           <ThemeProvider theme={theme}>
+            <NextNProgress />
             <DefaultLayout>
               <LayoutInner>
                 <Component {...pageProps} />

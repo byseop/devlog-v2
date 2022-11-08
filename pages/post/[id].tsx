@@ -40,7 +40,7 @@ export default function ({ id, data }: IPostPageProps) {
       <Meta
         title={title.title[0].plain_text || ''}
         description={subTitle.rich_text[0].plain_text || ''}
-        url={`https://byseop.dev/post/@${id}`}
+        url={`https://byseop.com/post/@${id}`}
       />
       <Post id={id} data={data} />
     </>

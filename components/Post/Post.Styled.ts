@@ -46,6 +46,15 @@ const S = styled(Post)`
     }
   }
 
+  .post-content-wrap {
+    margin-bottom: 5rem;
+  }
+
+  .comment-container {
+    max-width: 720px;
+    width: 100%;
+    margin: auto;
+  }
   @media screen and (max-width: 700px) {
     .article-header {
       .post-title-wrap {

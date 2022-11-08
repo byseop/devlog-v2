@@ -3,6 +3,7 @@ import { NotionRenderer } from 'react-notion-x';
 import useRootState from '../../core/hooks/useRootState';
 import Image from 'next/image';
 import { useGetPost } from '../../core/queries/posts';
+import Comment from '../Comment';
 
 import type { ExtendedRecordMap } from 'notion-types';
 import {
@@ -67,12 +68,16 @@ const Post: React.FC<IPostProps> = ({ id, data, className }) => {
         )}
       </div>
       {postData?.data.notionPage && (
-        <NotionRenderer
-          recordMap={postData.data.notionPage}
-          darkMode={mode === 'dark'}
-          components={{ Code }}
-        />
+        <div className="post-content-wrap">
+          <NotionRenderer
+            recordMap={postData.data.notionPage}
+            darkMode={mode === 'dark'}
+            components={{ Code }}
+          />
+        </div>
       )}
+
+      <Comment />
     </div>
   );
 };

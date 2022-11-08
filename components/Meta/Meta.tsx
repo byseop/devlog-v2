@@ -11,7 +11,7 @@ const Meta: React.FC<Props> = ({
   title,
   description,
   url,
-  image = '/assets/images/byseop.png'
+  image = 'https://byseop.com/assets/images/byseop.png'
 }) => {
   return (
     <Head>

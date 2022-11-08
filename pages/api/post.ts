@@ -18,7 +18,8 @@ export default function handler(
 ) {
   const page_id = req.query.id as string;
   const auth = process.env.NOTION_API_KEY;
-  const notionRenderClient = new NotionAPI();
+  const activeUser = process.env.NOTION_USER_ID;
+  const authToken = process.env.NOTION_AUTH_TOKEN;
 
   if (!page_id) {
     res.status(400).json({
@@ -27,12 +28,15 @@ export default function handler(
     return;
   }
 
-  if (!auth) {
-    res.status(401).json({
-      message: 'NOTION_API_KEY 가 존재하지 않습니다.'
-    });
+  if (!auth || !activeUser || !authToken) {
+    res.status(401).json({ message: '인증 실패' });
     return;
   }
+
+  const notionRenderClient = new NotionAPI({
+    activeUser,
+    authToken
+  });
 
   const notion = new Client({
     auth

@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, forwardRef } from 'react';
 import Image from 'next/image';
 
 import type {
@@ -10,9 +10,10 @@ import Link from 'next/link';
 interface IPostCardProps {
   className?: string;
   data: PageObjectResponse;
+  lastRef?: (node?: Element | null | undefined) => void;
 }
 
-const PostCard: React.FC<IPostCardProps> = ({ data, className }) => {
+const PostCard: React.FC<IPostCardProps> = ({ data, className, lastRef }) => {
   const title = data.properties.title as {
     type: 'title';
     title: Array<RichTextItemResponse>;
@@ -39,7 +40,7 @@ const PostCard: React.FC<IPostCardProps> = ({ data, className }) => {
 
   return (
     <Link href={`/post/@${data.id}`}>
-      <div className={`${className} post-card`}>
+      <div className={`${className} post-card`} ref={lastRef}>
         {data.cover && <CoverImage cover={data.cover} />}
         <div className="card-contents">
           {categories && (

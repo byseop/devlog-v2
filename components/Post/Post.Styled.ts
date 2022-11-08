@@ -30,7 +30,6 @@ const S = styled(Post)`
 
     .post-title-wrap {
       max-width: 688px;
-      width: 100%;
       margin: 5rem auto;
       padding: 0 1.6rem;
       h1 {

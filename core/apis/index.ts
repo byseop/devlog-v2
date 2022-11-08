@@ -11,7 +11,7 @@ export const api: AxiosInstance = axios.create({
     'Content-Type': 'application/json',
     'Accept-Language': 'ko'
   },
-  timeout: 3000
+  timeout: 10000
 });
 
 // interface

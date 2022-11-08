@@ -9,9 +9,9 @@ export default function ({ data }: { data: Response<PageObjectResponse[]> }) {
   return (
     <>
       <Meta
-        title="byseop.dev"
+        title="byseop devlog"
         description="프론트엔드 개발자 byseop 개발블로그 입니다. 세상에서 가장 빠르게 최신 개발 트렌드를 확인해보세요."
-        url="https://byseop.dev"
+        url="https://byseop.com"
       />
       <Home initialPosts={data} />
     </>

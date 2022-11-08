@@ -5,7 +5,7 @@ import type { Response } from '../../interfaces';
 export const api: AxiosInstance = axios.create({
   baseURL:
     process.env.APP_ENV === 'production'
-      ? 'https://devlog-v2-byseop.vercel.app/api'
+      ? 'https://byseop.com/api'
       : 'http://localhost:3000/api',
   headers: {
     'Content-Type': 'application/json',

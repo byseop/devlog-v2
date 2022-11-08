@@ -29,7 +29,9 @@ const S = styled(Post)`
     }
 
     .post-title-wrap {
-      margin: 5rem 13rem;
+      max-width: 688px;
+      width: 100%;
+      margin: 5rem auto;
       padding: 0 1.6rem;
       h1 {
         color: var(--text1);
@@ -40,6 +42,21 @@ const S = styled(Post)`
         margin-top: 2rem;
         font-size: 2.4rem;
         color: var(--text2);
+      }
+    }
+  }
+
+  @media screen and (max-width: 700px) {
+    .article-header {
+      .post-title-wrap {
+        margin: 6rem auto 3rem auto;
+        h1 {
+          font-size: 3rem;
+        }
+
+        h2 {
+          font-size: 2rem;
+        }
       }
     }
   }

@@ -50,6 +50,8 @@ const Post: React.FC<IPostProps> = ({ id, data, className }) => {
     id: string;
   };
 
+  const linkMapper = (pageId: string) => `@${pageId}`;
+
   return (
     <div className={`post-wrapper ${className}`}>
       <div className="article-header">
@@ -73,6 +75,7 @@ const Post: React.FC<IPostProps> = ({ id, data, className }) => {
             recordMap={postData.data.notionPage}
             darkMode={mode === 'dark'}
             components={{ Code }}
+            mapPageUrl={linkMapper}
           />
         </div>
       )}

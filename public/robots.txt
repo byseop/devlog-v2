@@ -1,0 +1,10 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://byseop.com
+
+# Sitemaps
+Sitemap: https://byseop.com/sitemap.xml
+Sitemap: https://byseop.com/server-sitemap-index.xml

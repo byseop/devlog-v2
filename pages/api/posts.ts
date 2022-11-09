@@ -54,7 +54,9 @@ export default function handler(
               property: 'publishDate',
               direction: 'descending'
             }
-          ]
+          ],
+          page_size: 20,
+          start_cursor: (query.cursor as string) || undefined
         });
 
         const data = response.results as PageObjectResponse[];

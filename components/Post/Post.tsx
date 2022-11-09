@@ -6,7 +6,7 @@ import { useGetPost } from '../../core/queries/posts';
 import Comment from '../Comment';
 
 import type { ExtendedRecordMap } from 'notion-types';
-import {
+import type {
   PageObjectResponse,
   RichTextItemResponse
 } from '@notionhq/client/build/src/api-endpoints';

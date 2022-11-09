@@ -23,6 +23,13 @@ interface IPostPageProps {
 }
 
 export default function ({ id, data }: IPostPageProps) {
+  const cover = data?.data.post.cover as {
+    type: 'external';
+    external: {
+      url: TextRequest;
+    };
+  };
+
   const title = data?.data.post.properties.title as {
     type: 'title';
     title: Array<RichTextItemResponse>;
@@ -41,6 +48,7 @@ export default function ({ id, data }: IPostPageProps) {
         title={title.title[0].plain_text || ''}
         description={subTitle.rich_text[0].plain_text || ''}
         url={`https://byseop.com/post/@${id}`}
+        image={cover.external.url}
       />
       <Post id={id} data={data} />
     </>

@@ -1,7 +1,6 @@
 import { Provider } from 'react-redux';
 import { DefaultLayout } from '../components/Layouts';
-import { store, persistor } from '../core/store';
-import { PersistGate } from 'redux-persist/integration/react';
+import { store } from '../core/store';
 import { ThemeProvider } from 'styled-components';
 import { theme } from '../styles/theme';
 import LayoutInner from '../components/Layouts/LayoutInner';
@@ -31,41 +30,39 @@ const queryClient = new QueryClient({
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <QueryClientProvider client={queryClient}>
-          <ThemeProvider theme={theme}>
-            <DefaultSeo {...SEO} />
-            <NextNProgress />
-            {process.env.NEXT_PUBLIC_APP_ENV === 'production' && (
-              <>
-                <Script
-                  strategy="afterInteractive"
-                  src="https://www.googletagmanager.com/gtag/js?id=G-7GJZ6E40WG"
-                />
-                <Script
-                  id="google-analytics"
-                  strategy="afterInteractive"
-                  dangerouslySetInnerHTML={{
-                    __html: `
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider theme={theme}>
+          <DefaultSeo {...SEO} />
+          <NextNProgress />
+          {process.env.NEXT_PUBLIC_APP_ENV === 'production' && (
+            <>
+              <Script
+                strategy="afterInteractive"
+                src="https://www.googletagmanager.com/gtag/js?id=G-7GJZ6E40WG"
+              />
+              <Script
+                id="google-analytics"
+                strategy="afterInteractive"
+                dangerouslySetInnerHTML={{
+                  __html: `
                   window.dataLayer = window.dataLayer || [];
                   function gtag(){dataLayer.push(arguments);}
                   gtag('js', new Date());
                 
                   gtag('config', 'G-7GJZ6E40WG');
                 `
-                  }}
-                />
-              </>
-            )}
-            <DefaultLayout>
-              <LayoutInner>
-                <Component {...pageProps} />
-              </LayoutInner>
-            </DefaultLayout>
-          </ThemeProvider>
-          <ReactQueryDevtools />
-        </QueryClientProvider>
-      </PersistGate>
+                }}
+              />
+            </>
+          )}
+          <DefaultLayout>
+            <LayoutInner>
+              <Component {...pageProps} />
+            </LayoutInner>
+          </DefaultLayout>
+        </ThemeProvider>
+        <ReactQueryDevtools />
+      </QueryClientProvider>
     </Provider>
   );
 }

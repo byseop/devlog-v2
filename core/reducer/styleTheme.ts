@@ -6,7 +6,16 @@ interface IStyleThemeState {
 }
 
 const initialState: IStyleThemeState = {
-  mode: 'dark'
+  mode: (() => {
+    let defaultTheme = 'dark' as IStyleCode;
+    if (typeof window !== 'undefined') {
+      const theme = localStorage.getItem('theme');
+      if (theme === 'light' || theme === 'dark') {
+        defaultTheme = theme;
+      }
+    }
+    return defaultTheme;
+  })()
 };
 
 const styleThemeSlice = createSlice({
@@ -14,6 +23,9 @@ const styleThemeSlice = createSlice({
   initialState,
   reducers: {
     toggle(state, action: PayloadAction<IStyleThemeState>) {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('theme', action.payload.mode);
+      }
       state.mode = action.payload.mode;
     }
   }

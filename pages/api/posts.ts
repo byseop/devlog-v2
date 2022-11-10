@@ -14,7 +14,7 @@ export default function handler(
 ) {
   const database_id = process.env.NOTION_DATABASE_ID;
   const auth = process.env.NOTION_API_KEY;
-  const isProduction = process.env.APP_ENV === 'production';
+  const isProduction = process.env.NEXT_PUBLIC_APP_ENV === 'production';
 
   if (!database_id) {
     res.status(400).json({

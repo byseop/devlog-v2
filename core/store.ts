@@ -36,6 +36,8 @@ const persistConfig = {
 const reducer = persistReducer<RootReducerTypes>(persistConfig, rootReducer);
 
 const enhancer =
-  process.env.APP_ENV === 'production' ? compose() : composeWithDevTools();
+  process.env.NEXT_PUBLIC_APP_ENV === 'production'
+    ? compose()
+    : composeWithDevTools();
 export const store = createStore(reducer, enhancer);
 export const persistor = persistStore(store);

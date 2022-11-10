@@ -4,7 +4,7 @@ import type { Response } from '../../interfaces';
 
 export const api: AxiosInstance = axios.create({
   baseURL:
-    process.env.APP_ENV === 'production'
+    process.env.NEXT_PUBLIC_APP_ENV === 'production'
       ? 'https://byseop.com/api'
       : 'http://localhost:3000/api',
   headers: {

@@ -36,7 +36,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <ThemeProvider theme={theme}>
             <DefaultSeo {...SEO} />
             <NextNProgress />
-            {process.env.APP_ENV === 'production' && (
+            {process.env.NEXT_PUBLIC_APP_ENV === 'production' && (
               <>
                 <Script
                   strategy="afterInteractive"

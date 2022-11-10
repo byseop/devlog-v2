@@ -36,6 +36,15 @@ const Comment = () => {
     commentIframe?.contentWindow?.postMessage(message, 'https://utteranc.es');
   }, [mode]);
 
+  useEffect(() => {
+    return () => {
+      const style = document.head.getElementsByTagName('style')[0];
+      if (style.innerHTML.includes('utterances')) {
+        style.remove();
+      }
+    };
+  }, []);
+
   return <div className="comment-container" ref={setContainer} />;
 };
 

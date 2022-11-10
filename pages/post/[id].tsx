@@ -1,6 +1,6 @@
 import Post from '../../components/Post';
 import { postApis } from '../../core/apis/posts';
-import Meta from '../../components/Meta';
+import { NextSeo } from 'next-seo';
 
 import type { GetServerSideProps } from 'next';
 import type { ExtendedRecordMap } from 'notion-types';
@@ -44,11 +44,30 @@ export default function ({ id, data }: IPostPageProps) {
 
   return (
     <>
-      <Meta
-        title={title.title[0].plain_text || ''}
-        description={subTitle.rich_text[0].plain_text || ''}
-        url={`https://byseop.com/post/@${id}`}
-        image={cover.external.url}
+      <NextSeo
+        title={title.title[0].plain_text}
+        description={subTitle.rich_text[0].plain_text}
+        openGraph={{
+          url: `https://byseop.com/post/@${id}`,
+          title: title.title[0].plain_text,
+          description: subTitle.rich_text[0].plain_text,
+          images: [
+            {
+              url: cover.external.url,
+              secureUrl: cover.external.url,
+              width: 1074,
+              height: 674,
+              alt: title.title[0].plain_text,
+              type: 'image/png'
+            }
+          ],
+          siteName: 'byseop devlog'
+        }}
+        twitter={{
+          handle: 'byseop',
+          site: `https://byseop.com/post/@${id}`,
+          cardType: 'summary_large_image'
+        }}
       />
       <Post id={id} data={data} />
     </>

@@ -31,7 +31,7 @@ const queryClient = new QueryClient({
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
-      <PersistGate persistor={persistor} loading={null}>
+      <PersistGate persistor={persistor}>
         <QueryClientProvider client={queryClient}>
           <ThemeProvider theme={theme}>
             <DefaultSeo {...SEO} />

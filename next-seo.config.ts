@@ -14,11 +14,11 @@ const config: DefaultSeoProps = {
     siteName: 'byseop devlog',
     images: [
       {
-        url: 'https://byseop.com/assets/images/byseop.png',
+        url: 'https://byseop.com/assets/images/byseop.jpeg',
         width: 1074,
         height: 674,
         alt: 'byseop devlog',
-        secureUrl: 'https://byseop.com/assets/images/byseop.png',
+        secureUrl: 'https://byseop.com/assets/images/byseop.jpeg',
         type: 'image/png'
       }
     ]

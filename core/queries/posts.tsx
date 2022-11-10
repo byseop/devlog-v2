@@ -34,9 +34,8 @@ export const useGetPost = (
     }>
   >
 ) => {
-  return useQuery(
-    postsQueryKey.post(id),
-    () => postApis.getPost(id),
-    options as any
-  );
+  return useQuery(postsQueryKey.post(id), () => postApis.getPost(id), {
+    ...(options as any),
+    enabled: false
+  });
 };

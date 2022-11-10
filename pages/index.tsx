@@ -11,7 +11,7 @@ export default function ({ data }: { data: Response<PageObjectResponse[]> }) {
 export const getStaticProps = async () => {
   try {
     const res = await postApis.getPosts();
-    return { props: { data: res }, revalidate: 60 };
+    return { props: { data: res }, revalidate: 3600 };
   } catch (e) {
     console.error(e);
     return {

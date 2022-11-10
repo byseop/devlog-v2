@@ -101,7 +101,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
         id,
         data: res
       },
-      revalidate: 60
+      revalidate: 3600
     };
   } catch (e) {
     return {

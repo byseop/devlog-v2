@@ -36,11 +36,13 @@ const S = styled(Post)`
         color: var(--text1);
         font-size: 4.8rem;
         font-weight: bold;
+        line-height: 1.1em;
       }
       h2 {
         margin-top: 2rem;
         font-size: 2.4rem;
         color: var(--text2);
+        line-height: 1.4em;
       }
     }
   }

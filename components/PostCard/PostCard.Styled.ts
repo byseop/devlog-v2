@@ -23,12 +23,14 @@ const S = styled(PostCard)`
       font-size: 3.6rem;
       margin-top: 1rem;
       transition: color 0.2s ease-out;
+      line-height: 1.1em;
     }
 
     .sub-title {
       margin-top: 1.4rem;
       font-size: 1.7rem;
       color: var(--text2);
+      line-height: 1.4em;
     }
 
     .publish-date {

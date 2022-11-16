@@ -23,3 +23,12 @@ declare type SelectColor =
   | 'pink'
   | 'red';
 declare type TextRequest = string;
+
+declare type MultiSelectDatabasePropertyConfigResponse = {
+  type: 'multi_select';
+  multi_select: {
+    options: Array<SelectPropertyResponse>;
+  };
+  id: string;
+  name: string;
+};

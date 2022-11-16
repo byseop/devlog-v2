@@ -55,7 +55,7 @@ export default function handler(
               direction: 'descending'
             }
           ],
-          page_size: 20,
+          page_size: (query.pageSize as number | undefined) || 20,
           start_cursor: (query.cursor as string) || undefined
         });
 

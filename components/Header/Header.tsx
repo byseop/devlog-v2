@@ -1,11 +1,12 @@
+import { useEffect, useState } from 'react';
 import { Fira_Mono } from '@next/font/google';
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 import useRootState from '../../core/hooks/useRootState';
 import styleThemeSlice from '../../core/reducer/styleTheme';
 
-import { IoSunny, IoMoon } from 'react-icons/io5';
 import { BsGithub } from 'react-icons/bs';
+import { IoSunny, IoMoon } from 'react-icons/io5';
 
 interface IProps {
   className?: string;
@@ -35,6 +36,8 @@ const firaMono = Fira_Mono({
 });
 
 const Header: React.FC<IProps> = ({ className }) => {
+  const [ref, setRef] = useState<Element | null>(null);
+  const [loaded, setLoaded] = useState<boolean>(false);
   const dispatch = useDispatch();
   const { mode } = useRootState((state) => state.theme);
 
@@ -45,6 +48,23 @@ const Header: React.FC<IProps> = ({ className }) => {
       })
     );
   };
+
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (!ref || !loaded) return;
+
+    ref.setAttribute('data-theme', 'true');
+    setTimeout(() => {
+      ref.removeAttribute('data-theme');
+    }, 500);
+
+    return () => {
+      ref.setAttribute('data-theme', 'true');
+    };
+  }, [ref, loaded, mode]);
 
   return (
     <header id="header" className={`${className}`}>
@@ -64,11 +84,8 @@ const Header: React.FC<IProps> = ({ className }) => {
           </div>
           <div className="btn-wrap">
             <button onClick={handleClickThemeToggle}>
-              <span className={mode}>
-                <IoSunny />
-              </span>
-              <span className={mode}>
-                <IoMoon />
+              <span className="theme-icon" ref={setRef}>
+                {loaded ? mode === 'light' ? <IoSunny /> : <IoMoon /> : null}
               </span>
             </button>
           </div>

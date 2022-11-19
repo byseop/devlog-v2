@@ -5,7 +5,7 @@ import type { GetServerSideProps } from 'next';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
-    const res = await postApis.getPosts();
+    const res = await postApis.getPosts({ pageSize: 1000 });
     return getServerSideSitemapIndex(
       context,
       res.data.map((page) => `https://byseop.com/posts/@${page.id}`)

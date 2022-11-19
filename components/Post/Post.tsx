@@ -4,6 +4,8 @@ import useRootState from '../../core/hooks/useRootState';
 import Image from 'next/image';
 import { useGetPost } from '../../core/queries/posts';
 import Comment from '../Comment';
+import Link from 'next/link';
+import { customMapImageUrl } from '../../core/utils/notion-client/customImageMap';
 
 import type { ExtendedRecordMap } from 'notion-types';
 import type {
@@ -74,8 +76,9 @@ const Post: React.FC<IPostProps> = ({ id, data, className }) => {
           <NotionRenderer
             recordMap={postData.data.notionPage}
             darkMode={mode === 'dark'}
-            components={{ Code }}
+            components={{ Code, nextLink: Link, nextImage: Image }}
             mapPageUrl={linkMapper}
+            mapImageUrl={customMapImageUrl}
           />
         </div>
       )}

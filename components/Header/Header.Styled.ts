@@ -46,6 +46,7 @@ const S = styled(Header)`
 
           span {
             position: absolute;
+            transform-origin: center center;
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
@@ -53,19 +54,24 @@ const S = styled(Header)`
             width: 25px;
             height: 25px;
             line-height: 100%;
-            transition: all 0.5s ease-out;
-            transform-origin: center center;
 
-            &.light {
-              &:nth-child(2) {
-                opacity: 0;
-                transform: translate(-50%, -50%) rotate(360deg) scale(0);
+            &.theme-icon {
+              transform: translate(-50%, -50%) scale(1);
+              transition: none;
+              @keyframes toggle {
+                0% {
+                  transform: translate(-50%, -50%) rotate(0) scale(1);
+                }
+                50% {
+                  transform: translate(-50%, -50%) rotate(180deg) scale(0);
+                }
+                100% {
+                  transform: translate(-50%, -50%) rotate(360deg) scale(1);
+                }
               }
-            }
-            &.dark {
-              &:nth-child(1) {
-                opacity: 0;
-                transform: translate(-50%, -50%) rotate(360deg) scale(0);
+              &[data-theme='true'] {
+                transition: all 0.5s ease-out;
+                animation: toggle 0.5s ease-out;
               }
             }
           }

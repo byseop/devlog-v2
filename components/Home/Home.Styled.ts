@@ -3,6 +3,9 @@ import Home from './Home';
 
 const S = styled(Home)`
   .title-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin: 5.2rem 0 3.2rem 0;
     font-size: 3.6rem;
     color: var(--text1);

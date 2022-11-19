@@ -12,7 +12,7 @@ const S = styled(Post)`
       position: relative;
 
       .cover {
-        width: 100vw;
+        width: calc(100vw - 17px);
         height: 100%;
         position: absolute;
         left: 50%;

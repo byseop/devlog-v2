@@ -46,6 +46,15 @@ export default function handler(
           filter.and.push(DEFINED_FILTER.STATUS_PUBLISHED);
         }
 
+        if (query.filter) {
+          const paramsFilter = JSON.parse(query.filter as string);
+          if (paramsFilter.categories) {
+            paramsFilter.categories.forEach((category: string) => {
+              filter.and.push(DEFINED_FILTER.MULTI_SELECT_CATEGORY(category));
+            });
+          }
+        }
+
         const response = await notion.databases.query({
           database_id,
           filter,
@@ -55,8 +64,8 @@ export default function handler(
               direction: 'descending'
             }
           ],
-          page_size: 20,
-          start_cursor: (query.cursor as string) || undefined
+          page_size: (query.pageSize as number | undefined) || 20
+          // start_cursor: (query.cursor as string) || undefined
         });
 
         const data = response.results as PageObjectResponse[];

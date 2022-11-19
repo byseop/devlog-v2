@@ -1,3 +1,4 @@
 export interface IPostsParams {
-  cursor: string;
+  // cursor: string;
+  filter: string;
 }

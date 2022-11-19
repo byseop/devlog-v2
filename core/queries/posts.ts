@@ -7,7 +7,12 @@ import type { ExtendedRecordMap } from 'notion-types';
 import { IPostsParams } from '../../interfaces/posts';
 
 export const postsQueryKey = {
-  posts: (params: IPostsParams) => ['posts', params.cursor] as const,
+  posts: (params: IPostsParams) =>
+    [
+      'posts' /*params.cursor*/,
+      ,
+      ...JSON.parse(params.filter).categories
+    ] as const,
   post: (id: string) => ['post', id] as const
 };
 
@@ -19,8 +24,8 @@ export const useGetPosts = (
     postsQueryKey.posts(params),
     () => postApis.getPosts(params),
     {
-      ...(options as any),
-      enabled: false
+      ...(options as any)
+      // enabled: false
     }
   );
 };

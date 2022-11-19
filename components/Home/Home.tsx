@@ -31,7 +31,7 @@ const Home: React.FC<IHomeProps> = ({ className, initialPosts }) => {
         />
       </div>
 
-      <Posts initialPosts={initialPosts} />
+      <Posts initialPosts={initialPosts} selectedCategory={selectedCategory} />
     </div>
   );
 };

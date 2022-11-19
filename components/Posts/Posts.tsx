@@ -9,51 +9,30 @@ import type { Response } from '../../interfaces';
 interface IPostsProps {
   className?: string;
   initialPosts: Response<PageObjectResponse[]>;
+  selectedCategory: string[];
 }
 
-const Posts: React.FC<IPostsProps> = ({ initialPosts, className }) => {
-  const [posts, setPosts] = useState<PageObjectResponse[]>(initialPosts.data);
-  const [end, setEnd] = useState<boolean>(false);
-  const [cursor, setCurosr] = useState<string>(
-    initialPosts.data[initialPosts.data.length - 1].id
-  );
-  const { refetch: fetchNext, isLoading } = useGetPosts(
+const Posts: React.FC<IPostsProps> = ({
+  initialPosts,
+  className,
+  selectedCategory
+}) => {
+  const { data, isFetching } = useGetPosts(
     {
-      cursor
+      filter: JSON.stringify({ categories: selectedCategory })
     },
     {
-      initialData: initialPosts,
-      onSuccess: (res) => {
-        if (res.data.length === 1) {
-          setEnd(true);
-          return;
-        }
-        setPosts((prev) => [...prev, ...res.data.slice(1)]);
-        setCurosr(res.data[res.data.length - 1]?.id);
-      }
+      initialData: initialPosts
     }
   );
-
-  const { ref, inView } = useInView({
-    threshold: 1
-  });
-
-  useEffect(() => {
-    if (inView && cursor && !end) {
-      fetchNext();
-    }
-  }, [inView, end]);
 
   return (
     <div className={`posts-wrapper ${className}`}>
       <ul>
-        {posts.map((post, index) => (
-          <PostCard
-            data={post}
-            key={post.id + index}
-            lastRef={(index === posts.length - 1 && ref) || undefined}
-          />
-        ))}
+        {!isFetching &&
+          data?.data.map((post, index) => (
+            <PostCard data={post} key={post.id + index} />
+          ))}
       </ul>
     </div>
   );

@@ -32,12 +32,12 @@ const CategoryFilter = ({
                   {data?.data.map((item) => (
                     <li
                       key={item.id}
-                      onClick={() => onChange?.(item.id)}
+                      onClick={() => onChange?.(item.name)}
                       className={`${
-                        value.find((v) => v === item.id) ? 'selected' : ''
+                        value.find((v) => v === item.name) ? 'selected' : ''
                       }`}
                       style={
-                        value.find((v) => v === item.id)
+                        value.find((v) => v === item.name)
                           ? {
                               background: item.color,
                               borderColor: item.color

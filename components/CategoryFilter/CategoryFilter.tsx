@@ -1,0 +1,65 @@
+import { useCallback } from 'react';
+import * as Popover from '@radix-ui/react-popover';
+import { RiMenu3Fill } from 'react-icons/ri';
+import { IoCloseSharp } from 'react-icons/io5';
+import { useGetCategory } from '../../core/queries/category';
+
+interface ICategoryFilterProps {
+  className?: string;
+  onChange?: (value: string) => void;
+  value: string[];
+}
+
+const CategoryFilter = ({
+  className,
+  onChange,
+  value
+}: ICategoryFilterProps) => {
+  const { data } = useGetCategory();
+
+  return (
+    <div className={`category-filter-wrap ${className}`}>
+      <Popover.Root>
+        <Popover.Trigger className="btn-filter">
+          <RiMenu3Fill />
+        </Popover.Trigger>
+        <Popover.Portal>
+          <Popover.Content className={`category-filter-content ${className}`}>
+            <div className="category-content-wrap">
+              <div className="category-list">
+                <p>보고싶은 카테고리를 선택하세요</p>
+                <ul>
+                  {data?.data.map((item) => (
+                    <li
+                      key={item.id}
+                      onClick={() => onChange?.(item.id)}
+                      className={`${
+                        value.find((v) => v === item.id) ? 'selected' : ''
+                      }`}
+                      style={
+                        value.find((v) => v === item.id)
+                          ? {
+                              background: item.color,
+                              borderColor: item.color
+                            }
+                          : undefined
+                      }
+                    >
+                      {item.name}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <Popover.Close className="btn-close">
+              <IoCloseSharp />
+            </Popover.Close>
+            <Popover.Arrow className="icon-arrow" />
+          </Popover.Content>
+        </Popover.Portal>
+      </Popover.Root>
+    </div>
+  );
+};
+
+export default CategoryFilter;

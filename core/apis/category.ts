@@ -1,8 +1,10 @@
 import { request } from './';
 
+import type { ICategory } from '../../interfaces/category';
+
 export const categoryApis = {
   getCategory: () =>
-    request<any>({
+    request<ICategory[]>({
       url: '/category',
       method: 'GET'
     })

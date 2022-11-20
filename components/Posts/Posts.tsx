@@ -31,7 +31,9 @@ const Posts: React.FC<IPostsProps> = ({
       <ul>
         {!isFetching &&
           data?.data.map((post, index) => (
-            <PostCard data={post} key={post.id + index} />
+            <li>
+              <PostCard data={post} key={post.id + index} />
+            </li>
           ))}
       </ul>
     </div>

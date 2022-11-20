@@ -45,7 +45,7 @@ const S = styled(PostCard)`
 
       span {
         border-radius: 4px;
-        color: var(--text1);
+        color: #fff;
         padding: 6px;
         font-size: 1.2rem;
       }

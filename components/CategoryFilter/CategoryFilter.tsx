@@ -22,6 +22,7 @@ const CategoryFilter = ({
       <Popover.Root>
         <Popover.Trigger className="btn-filter">
           <RiMenu3Fill />
+          {value.length > 0 && <div className="point" />}
         </Popover.Trigger>
         <Popover.Portal>
           <Popover.Content className={`category-filter-content ${className}`}>

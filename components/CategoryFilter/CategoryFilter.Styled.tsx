@@ -19,6 +19,7 @@ const S = styled(CategoryFilter)`
     opacity: 0.8;
     transition: opacity 0.2s ease-out;
     position: relative;
+    padding: 0;
 
     &:hover {
       opacity: 1;
@@ -30,6 +31,16 @@ const S = styled(CategoryFilter)`
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
+    }
+
+    .point {
+      position: absolute;
+      right: 7px;
+      top: 7px;
+      width: 4px;
+      height: 4px;
+      border-radius: 100%;
+      background: red;
     }
   }
 
@@ -69,7 +80,7 @@ const S = styled(CategoryFilter)`
           transition: all 0.2s ease-out;
 
           &.selected {
-            color: var(--text1);
+            color: #fff;
           }
         }
       }

@@ -27,7 +27,9 @@ export const theme = {
     destructive2: '#FFA8A8',
     'button-text': '#121212',
     'slight-layer': 'rgba(255,255,255,0.1)',
-    'opaque-layer': 'rgba(0,0,0,0.85)'
+    'opaque-layer': 'rgba(0,0,0,0.85)',
+    'skeleton-base': '#15202B',
+    'skeleton-highlight': '#38444d'
   },
   light: {
     'bg-page1': '#F8F9FA',
@@ -57,6 +59,8 @@ export const theme = {
     destructive2: '#FF8787',
     'button-text': '#FFFFFF',
     'slight-layer': 'rgba(0,0,0,0.05)',
-    'opaque-layer': 'rgba(249,249,249,0.85)'
+    'opaque-layer': 'rgba(249,249,249,0.85)',
+    'skeleton-base': '#ebebeb',
+    'skeleton-highlight': '#f5f5f5'
   }
 } as const;

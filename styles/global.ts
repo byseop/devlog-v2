@@ -56,6 +56,9 @@ const GlobalStyle = createGlobalStyle<{ mode: IStyleCode }>`
     --button-text: ${(props) => props.theme[props.mode]['button-text']};
     --slight-layer: ${(props) => props.theme[props.mode]['slight-layer']};
     --opaque-layer: ${(props) => props.theme[props.mode]['opaque-layer']};
+    --skeleton-base: ${(props) => props.theme[props.mode]['skeleton-base']};
+    --skeleton-highlight: ${(props) =>
+      props.theme[props.mode]['skeleton-highlight']};
   }
 
   body {

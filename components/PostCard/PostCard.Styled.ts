@@ -1,7 +1,7 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import PostCard from './PostCard';
 
-const S = styled(PostCard)`
+export const style = css`
   display: flex;
   height: 240px;
   gap: 48px;
@@ -45,7 +45,7 @@ const S = styled(PostCard)`
 
       span {
         border-radius: 4px;
-        color: var(--text1);
+        color: #fff;
         padding: 6px;
         font-size: 1.2rem;
       }
@@ -95,6 +95,10 @@ const S = styled(PostCard)`
       }
     }
   }
+`;
+
+const S = styled(PostCard)`
+  ${style}
 `;
 
 export default S;

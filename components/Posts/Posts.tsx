@@ -1,7 +1,6 @@
-import { memo, useEffect, useState } from 'react';
+import { memo } from 'react';
 import { useGetPosts } from '../../core/queries/posts';
-import PostCard from '../PostCard';
-import { useInView } from 'react-intersection-observer';
+import * as PostCard from '../PostCard';
 
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import type { Response } from '../../interfaces';
@@ -29,9 +28,25 @@ const Posts: React.FC<IPostsProps> = ({
   return (
     <div className={`posts-wrapper ${className}`}>
       <ul>
+        {isFetching && (
+          <>
+            <li>
+              <PostCard.Skeleton />
+            </li>
+            <li>
+              <PostCard.Skeleton />
+            </li>
+            <li>
+              <PostCard.Skeleton />
+            </li>
+          </>
+        )}
+
         {!isFetching &&
           data?.data.map((post, index) => (
-            <PostCard data={post} key={post.id + index} />
+            <li key={post.id + index}>
+              <PostCard.Contents data={post} />
+            </li>
           ))}
       </ul>
     </div>

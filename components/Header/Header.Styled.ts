@@ -31,6 +31,7 @@ const S = styled(Header)`
           position: relative;
           width: 40px;
           height: 40px;
+          padding: 0;
           border-radius: 100%;
           border: none;
           background-color: transparent;
@@ -54,26 +55,6 @@ const S = styled(Header)`
             width: 25px;
             height: 25px;
             line-height: 100%;
-
-            &.theme-icon {
-              transform: translate(-50%, -50%) scale(1);
-              transition: none;
-              @keyframes toggle {
-                0% {
-                  transform: translate(-50%, -50%) rotate(0) scale(1);
-                }
-                50% {
-                  transform: translate(-50%, -50%) rotate(180deg) scale(0);
-                }
-                100% {
-                  transform: translate(-50%, -50%) rotate(360deg) scale(1);
-                }
-              }
-              &[data-theme='true'] {
-                transition: all 0.5s ease-out;
-                animation: toggle 0.5s ease-out;
-              }
-            }
           }
         }
       }

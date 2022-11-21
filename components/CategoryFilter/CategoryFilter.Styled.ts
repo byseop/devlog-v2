@@ -4,6 +4,7 @@ import CategoryFilter from './CategoryFilter';
 const S = styled(CategoryFilter)`
   position: relative;
   color: var(--text1);
+  z-index: 9999;
   .icon-arrow {
     fill: var(--bg-element1);
   }
@@ -19,6 +20,7 @@ const S = styled(CategoryFilter)`
     opacity: 0.8;
     transition: opacity 0.2s ease-out;
     position: relative;
+    padding: 0;
 
     &:hover {
       opacity: 1;
@@ -30,6 +32,16 @@ const S = styled(CategoryFilter)`
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
+    }
+
+    .point {
+      position: absolute;
+      right: 7px;
+      top: 7px;
+      width: 4px;
+      height: 4px;
+      border-radius: 100%;
+      background: red;
     }
   }
 
@@ -46,6 +58,7 @@ const S = styled(CategoryFilter)`
 
   .category-content-wrap {
     max-width: 400px;
+    box-sizing: border-box;
     padding: 2rem 3rem 2rem 2rem;
     background: var(--bg-element1);
     border-radius: 14px;
@@ -60,6 +73,7 @@ const S = styled(CategoryFilter)`
         display: flex;
         gap: 10px;
         font-size: 1.2rem;
+        flex-wrap: wrap;
         li {
           cursor: pointer;
           padding: 6px;
@@ -69,7 +83,7 @@ const S = styled(CategoryFilter)`
           transition: all 0.2s ease-out;
 
           &.selected {
-            color: var(--text1);
+            color: #fff;
           }
         }
       }

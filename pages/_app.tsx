@@ -11,6 +11,8 @@ import Script from 'next/script';
 import { DefaultSeo } from 'next-seo';
 import SEO from '../next-seo.config';
 
+import 'react-loading-skeleton/dist/skeleton.css';
+
 import type { AppProps } from 'next/app';
 
 const queryClient = new QueryClient({

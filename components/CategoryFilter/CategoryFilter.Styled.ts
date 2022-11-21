@@ -4,6 +4,7 @@ import CategoryFilter from './CategoryFilter';
 const S = styled(CategoryFilter)`
   position: relative;
   color: var(--text1);
+  z-index: 9999;
   .icon-arrow {
     fill: var(--bg-element1);
   }
@@ -57,6 +58,7 @@ const S = styled(CategoryFilter)`
 
   .category-content-wrap {
     max-width: 400px;
+    box-sizing: border-box;
     padding: 2rem 3rem 2rem 2rem;
     background: var(--bg-element1);
     border-radius: 14px;
@@ -71,6 +73,7 @@ const S = styled(CategoryFilter)`
         display: flex;
         gap: 10px;
         font-size: 1.2rem;
+        flex-wrap: wrap;
         li {
           cursor: pointer;
           padding: 6px;

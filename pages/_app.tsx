@@ -10,6 +10,7 @@ import NextNProgress from 'nextjs-progressbar';
 import Script from 'next/script';
 import { DefaultSeo } from 'next-seo';
 import SEO from '../next-seo.config';
+import { SkeletonTheme } from 'react-loading-skeleton';
 
 import 'react-loading-skeleton/dist/skeleton.css';
 
@@ -57,11 +58,16 @@ export default function App({ Component, pageProps }: AppProps) {
               />
             </>
           )}
-          <DefaultLayout>
-            <LayoutInner>
-              <Component {...pageProps} />
-            </LayoutInner>
-          </DefaultLayout>
+          <SkeletonTheme
+            baseColor="var(--skeleton-base)"
+            highlightColor="var(--skeleton-highlight)"
+          >
+            <DefaultLayout>
+              <LayoutInner>
+                <Component {...pageProps} />
+              </LayoutInner>
+            </DefaultLayout>
+          </SkeletonTheme>
         </ThemeProvider>
         <ReactQueryDevtools />
       </QueryClientProvider>

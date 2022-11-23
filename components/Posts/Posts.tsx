@@ -1,6 +1,7 @@
-import { memo } from 'react';
-import { useGetPosts } from '../../core/queries/posts';
+import { memo, Suspense, useEffect } from 'react';
+import { useGetPosts, useGetPostsQueryClient } from '../../core/queries/posts';
 import * as PostCard from '../PostCard';
+import { ErrorBoundary } from 'react-error-boundary';
 
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import type { Response } from '../../interfaces';
@@ -12,23 +13,22 @@ interface IPostsProps {
 }
 
 const Posts: React.FC<IPostsProps> = ({
-  initialPosts,
   className,
+  initialPosts,
   selectedCategory
 }) => {
-  const { data, isFetching } = useGetPosts(
-    {
-      filter: JSON.stringify({ categories: selectedCategory })
-    },
-    {
-      initialData: initialPosts
-    }
-  );
+  const { prefetch } = useGetPostsQueryClient({
+    filter: JSON.stringify({ categories: selectedCategory })
+  });
+
+  useEffect(() => {
+    if (selectedCategory.length > 0) prefetch();
+  }, [selectedCategory]);
 
   return (
     <div className={`posts-wrapper ${className}`}>
-      <ul>
-        {isFetching && (
+      <Suspense
+        fallback={
           <>
             <li>
               <PostCard.Skeleton />
@@ -40,17 +40,40 @@ const Posts: React.FC<IPostsProps> = ({
               <PostCard.Skeleton />
             </li>
           </>
-        )}
-
-        {!isFetching &&
-          data?.data.map((post, index) => (
-            <li key={post.id + index}>
-              <PostCard.Contents data={post} />
-            </li>
-          ))}
-      </ul>
+        }
+      >
+        <PostList
+          initialPosts={initialPosts}
+          selectedCategory={selectedCategory}
+        />
+      </Suspense>
     </div>
   );
 };
 
 export default memo(Posts);
+
+const PostList: React.FC<IPostsProps> = ({
+  initialPosts,
+  selectedCategory
+}) => {
+  const { data, status } = useGetPosts(
+    {
+      filter: JSON.stringify({ categories: selectedCategory })
+    },
+    {
+      suspense: true,
+      initialData: initialPosts
+    }
+  );
+  console.log(status);
+  return (
+    <ul>
+      {data?.data.map((post) => (
+        <li key={post.id}>
+          <PostCard.Contents data={post} />
+        </li>
+      ))}
+    </ul>
+  );
+};

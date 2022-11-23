@@ -23,6 +23,7 @@ const queryClient = new QueryClient({
       refetchOnReconnect: false,
       refetchOnWindowFocus: false
       // onError: handlerError
+      // suspense: true
     },
     mutations: {
       // onError: handlerError

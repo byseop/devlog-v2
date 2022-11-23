@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import PostCard from './PostCard';
+import PostCard from './PostCard.Contents';
 
 export const style = css`
   display: flex;

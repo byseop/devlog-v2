@@ -1,4 +1,4 @@
-import { useQuery, UseQueryOptions } from 'react-query';
+import { useQuery, UseQueryOptions, useQueryClient } from 'react-query';
 import { postApis } from '../apis/posts';
 
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
@@ -10,7 +10,6 @@ export const postsQueryKey = {
   posts: (params: IPostsParams) =>
     [
       'posts' /*params.cursor*/,
-      ,
       ...JSON.parse(params.filter).categories
     ] as const,
   post: (id: string) => ['post', id] as const
@@ -25,7 +24,6 @@ export const useGetPosts = (
     () => postApis.getPosts(params),
     {
       ...(options as any)
-      // enabled: false
     }
   );
 };

@@ -28,16 +28,6 @@ export const useGetPosts = (
   );
 };
 
-export const useGetPostsQueryClient = (params: IPostsParams) => {
-  const queryClient = useQueryClient();
-
-  const prefetch = () => {
-    queryClient.prefetchQuery(postsQueryKey.posts(params));
-  };
-
-  return { prefetch };
-};
-
 export const useGetPost = (
   id: string,
   options?: UseQueryOptions<

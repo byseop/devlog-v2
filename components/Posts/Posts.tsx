@@ -1,10 +1,12 @@
-import { memo, Suspense, useEffect } from 'react';
-import { useGetPosts, useGetPostsQueryClient } from '../../core/queries/posts';
+import { memo, Suspense } from 'react';
+import { useGetPosts } from '../../core/queries/posts';
+import CustomSuspense from '../CustomSuspense';
 import * as PostCard from '../PostCard';
-import { ErrorBoundary } from 'react-error-boundary';
 
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import type { Response } from '../../interfaces';
+import { QueryErrorResetBoundary } from 'react-query';
+import useMounted from '../../core/hooks/useMounted';
 
 interface IPostsProps {
   className?: string;
@@ -17,36 +19,30 @@ const Posts: React.FC<IPostsProps> = ({
   initialPosts,
   selectedCategory
 }) => {
-  const { prefetch } = useGetPostsQueryClient({
-    filter: JSON.stringify({ categories: selectedCategory })
-  });
-
-  useEffect(() => {
-    if (selectedCategory.length > 0) prefetch();
-  }, [selectedCategory]);
-
   return (
     <div className={`posts-wrapper ${className}`}>
-      <Suspense
-        fallback={
-          <>
-            <li>
-              <PostCard.Skeleton />
-            </li>
-            <li>
-              <PostCard.Skeleton />
-            </li>
-            <li>
-              <PostCard.Skeleton />
-            </li>
-          </>
-        }
-      >
-        <PostList
-          initialPosts={initialPosts}
-          selectedCategory={selectedCategory}
-        />
-      </Suspense>
+      <QueryErrorResetBoundary>
+        <CustomSuspense
+          fallback={
+            <>
+              <li>
+                <PostCard.Skeleton />
+              </li>
+              <li>
+                <PostCard.Skeleton />
+              </li>
+              <li>
+                <PostCard.Skeleton />
+              </li>
+            </>
+          }
+        >
+          <PostList
+            initialPosts={initialPosts}
+            selectedCategory={selectedCategory}
+          />
+        </CustomSuspense>
+      </QueryErrorResetBoundary>
     </div>
   );
 };
@@ -57,16 +53,18 @@ const PostList: React.FC<IPostsProps> = ({
   initialPosts,
   selectedCategory
 }) => {
-  const { data, status } = useGetPosts(
+  const mounted = useMounted();
+  const { data } = useGetPosts(
     {
       filter: JSON.stringify({ categories: selectedCategory })
     },
     {
       suspense: true,
-      initialData: initialPosts
+      useErrorBoundary: true,
+      initialData: !mounted ? initialPosts : undefined
     }
   );
-  console.log(status);
+
   return (
     <ul>
       {data?.data.map((post) => (

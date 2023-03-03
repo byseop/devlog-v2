@@ -24,7 +24,7 @@ const Posts: React.FC<IPostsProps> = ({
       <QueryErrorResetBoundary>
         <CustomSuspense
           fallback={
-            <>
+            <ul>
               <li>
                 <PostCard.Skeleton />
               </li>
@@ -34,7 +34,7 @@ const Posts: React.FC<IPostsProps> = ({
               <li>
                 <PostCard.Skeleton />
               </li>
-            </>
+            </ul>
           }
         >
           <PostList

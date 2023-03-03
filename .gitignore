@@ -36,6 +36,8 @@ yarn-error.log*
 next-env.d.ts
 
 .env*
+.gitconfig
 sitemap.*.xml
 sitemap.xml
 sitemap*.xml
+.idea

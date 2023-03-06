@@ -24,7 +24,6 @@ const Home: React.FC<IHomeProps> = ({ className, initialPosts }) => {
   }, []);
 
   const handleSubmitTextFilter = useCallback((value: string) => {
-    console.log(value);
     setEnteredText(value);
   }, []);
 
@@ -44,7 +43,11 @@ const Home: React.FC<IHomeProps> = ({ className, initialPosts }) => {
         </div>
       </div>
 
-      <Posts initialPosts={initialPosts} selectedCategory={selectedCategory} />
+      <Posts
+        initialPosts={initialPosts}
+        selectedCategory={selectedCategory}
+        enteredText={enteredText}
+      />
     </div>
   );
 };

@@ -11,5 +11,21 @@ export const DEFINED_FILTER = {
       contains: name
     },
     property: 'lRz%3A'
-  })
+  }),
+  TITLE_CONTAINED: (query: string) =>
+    ({
+      title: {
+        contains: query
+      },
+      property: 'title',
+      type: 'title'
+    } as const),
+  RICH_TEXT_CONTAINED: (query: string) =>
+    ({
+      rich_text: {
+        contains: query
+      },
+      property: '%7DEAT',
+      type: 'rich_text'
+    } as const)
 } as const;

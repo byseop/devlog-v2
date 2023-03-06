@@ -53,6 +53,16 @@ export default function handler(
               filter.and.push(DEFINED_FILTER.MULTI_SELECT_CATEGORY(category));
             });
           }
+
+          if (paramsFilter.query) {
+            const query = paramsFilter.query as string;
+            filter.and.push({
+              or: [
+                DEFINED_FILTER.TITLE_CONTAINED(query),
+                DEFINED_FILTER.RICH_TEXT_CONTAINED(query)
+              ]
+            });
+          }
         }
 
         const response = await notion.databases.query({
@@ -65,7 +75,6 @@ export default function handler(
             }
           ],
           page_size: (query.pageSize as number | undefined) || 20
-          // start_cursor: (query.cursor as string) || undefined
         });
 
         const data = response.results as PageObjectResponse[];

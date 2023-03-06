@@ -12,6 +12,7 @@
   "dependencies": {
     "@next/font": "^13.0.2",
     "@notionhq/client": "^2.2.2",
+    "@radix-ui/react-dialog": "^1.0.2",
     "@radix-ui/react-popover": "^1.0.2",
     "@reduxjs/toolkit": "^1.8.6",
     "@types/node": "18.11.9",

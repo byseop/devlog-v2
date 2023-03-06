@@ -11,6 +11,12 @@ const S = styled(Home)`
     color: var(--text1);
   }
 
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
   @media screen and (max-width: 700px) {
     .title-wrap {
       margin: 3rem 0;

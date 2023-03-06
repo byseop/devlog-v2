@@ -27,7 +27,7 @@ export const theme = {
     destructive2: '#FFA8A8',
     'button-text': '#121212',
     'slight-layer': 'rgba(255,255,255,0.1)',
-    'opaque-layer': 'rgba(0,0,0,0.85)',
+    'opaque-layer': 'rgba(0,0,0,0.6)',
     'skeleton-base': '#15202B',
     'skeleton-highlight': '#38444d'
   },

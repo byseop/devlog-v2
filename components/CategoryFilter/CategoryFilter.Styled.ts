@@ -9,6 +9,7 @@ const S = styled(CategoryFilter)`
     fill: var(--bg-element1);
   }
   .btn-filter {
+    display: block;
     width: 40px;
     height: 40px;
     border-radius: 100%;

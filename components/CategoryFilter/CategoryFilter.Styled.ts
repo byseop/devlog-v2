@@ -4,11 +4,12 @@ import CategoryFilter from './CategoryFilter';
 const S = styled(CategoryFilter)`
   position: relative;
   color: var(--text1);
-  z-index: 9999;
+  z-index: 999;
   .icon-arrow {
     fill: var(--bg-element1);
   }
   .btn-filter {
+    display: flex;
     width: 40px;
     height: 40px;
     border-radius: 100%;
@@ -21,18 +22,20 @@ const S = styled(CategoryFilter)`
     transition: opacity 0.2s ease-out;
     position: relative;
     padding: 0;
+    align-items: center;
+    justify-content: center;
 
     &:hover {
       opacity: 1;
       background: var(--slight-layer);
     }
 
-    svg {
+    /* svg {
       position: absolute;
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
-    }
+    } */
 
     .point {
       position: absolute;

@@ -9,7 +9,8 @@ import { IPostsParams } from '../../interfaces/posts';
 export const postsQueryKey = {
   posts: (params: IPostsParams) =>
     [
-      'posts' /*params.cursor*/,
+      'posts',
+      JSON.parse(params.filter).query,
       ...JSON.parse(params.filter).categories
     ] as const,
   post: (id: string) => ['post', id] as const

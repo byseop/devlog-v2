@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import * as Popover from '@radix-ui/react-popover';
 import { RiMenu3Fill } from 'react-icons/ri';
 import { IoCloseSharp } from 'react-icons/io5';
@@ -10,11 +9,11 @@ interface ICategoryFilterProps {
   value: string[];
 }
 
-const CategoryFilter = ({
+const CategoryFilter: React.FC<ICategoryFilterProps> = ({
   className,
   onChange,
   value
-}: ICategoryFilterProps) => {
+}) => {
   const { data } = useGetCategory();
 
   return (

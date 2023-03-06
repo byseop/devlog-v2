@@ -12,12 +12,14 @@ interface IPostsProps {
   className?: string;
   initialPosts: Response<PageObjectResponse[]>;
   selectedCategory: string[];
+  enteredText: string;
 }
 
 const Posts: React.FC<IPostsProps> = ({
   className,
   initialPosts,
-  selectedCategory
+  selectedCategory,
+  enteredText
 }) => {
   return (
     <div className={`posts-wrapper ${className}`}>
@@ -40,6 +42,7 @@ const Posts: React.FC<IPostsProps> = ({
           <PostList
             initialPosts={initialPosts}
             selectedCategory={selectedCategory}
+            enteredText={enteredText}
           />
         </CustomSuspense>
       </QueryErrorResetBoundary>
@@ -51,12 +54,16 @@ export default memo(Posts);
 
 const PostList: React.FC<IPostsProps> = ({
   initialPosts,
-  selectedCategory
+  selectedCategory,
+  enteredText
 }) => {
   const mounted = useMounted();
   const { data } = useGetPosts(
     {
-      filter: JSON.stringify({ categories: selectedCategory })
+      filter: JSON.stringify({
+        categories: selectedCategory,
+        query: enteredText
+      })
     },
     {
       suspense: true,

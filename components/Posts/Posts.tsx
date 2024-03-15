@@ -1,12 +1,12 @@
-import { memo, Suspense } from 'react';
-import { useGetPosts } from '../../core/queries/posts';
-import CustomSuspense from '../CustomSuspense';
-import * as PostCard from '../PostCard';
+import { memo } from 'react';
+import { useGetPosts } from '@core/queries/posts';
+import CustomSuspense from '@components/CustomSuspense';
+import * as PostCard from '@components/PostCard';
 
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
-import type { Response } from '../../interfaces';
+import type { Response } from '@interfaces/index';
 import { QueryErrorResetBoundary } from 'react-query';
-import useMounted from '../../core/hooks/useMounted';
+import useMounted from '@core/hooks/useMounted';
 
 interface IPostsProps {
   className?: string;

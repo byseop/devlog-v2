@@ -2,7 +2,7 @@ import { Client } from '@notionhq/client';
 import { DEFINED_FILTER } from './constant';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
-import type { IAPIError, Response } from '../../interfaces';
+import type { IAPIError, Response } from '@interfaces/index';
 import type {
   PageObjectResponse,
   QueryDatabaseParameters

@@ -1,7 +1,7 @@
 import { Client } from '@notionhq/client';
 import { NotionAPI } from 'notion-client';
 
-import type { IAPIError, Response } from '../../interfaces';
+import type { IAPIError, Response } from '@interfaces/index';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import type { ExtendedRecordMap } from 'notion-types';

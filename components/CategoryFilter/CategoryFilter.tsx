@@ -1,7 +1,7 @@
 import * as Popover from '@radix-ui/react-popover';
 import { RiMenu3Fill } from 'react-icons/ri';
 import { IoCloseSharp } from 'react-icons/io5';
-import { useGetCategory } from '../../core/queries/category';
+import { useGetCategory } from '@core/queries/category';
 
 interface ICategoryFilterProps {
   className?: string;

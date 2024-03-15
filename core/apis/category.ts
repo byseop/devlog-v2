@@ -1,6 +1,6 @@
 import { request } from './';
 
-import type { ICategory } from '../../interfaces/category';
+import type { ICategory } from '@interfaces/category';
 
 export const categoryApis = {
   getCategory: () =>

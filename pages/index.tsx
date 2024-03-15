@@ -1,9 +1,9 @@
-import Home from '../components/Home';
-import { postApis } from '../core/apis/posts';
-
-import type { Response } from '../interfaces';
-import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
+import Home from '@components/Home';
+import { postApis } from '@core/apis/posts';
 import { GetStaticProps } from 'next';
+
+import type { Response } from '@interfaces/index';
+import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 
 export default function ({ data }: { data: Response<PageObjectResponse[]> }) {
   return <Home initialPosts={data} />;

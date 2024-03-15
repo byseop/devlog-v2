@@ -1,5 +1,5 @@
-import Post from '../../components/Post';
-import { postApis } from '../../core/apis/posts';
+import Post from '@components/Post';
+import { postApis } from '@core/apis/posts';
 import { NextSeo } from 'next-seo';
 
 import type { GetStaticPaths, GetStaticProps } from 'next';
@@ -8,7 +8,7 @@ import type {
   PageObjectResponse,
   RichTextItemResponse
 } from '@notionhq/client/build/src/api-endpoints';
-import type { Response } from '../../interfaces';
+import type { Response } from '@interfaces/index';
 
 import 'react-notion-x/src/styles.css';
 import 'prismjs/themes/prism-tomorrow.css';

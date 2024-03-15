@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
-import type { Response } from '../../interfaces';
+import type { Response } from '@interfaces/index';
 
 export const api: AxiosInstance = axios.create({
   baseURL:

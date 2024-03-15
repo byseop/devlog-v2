@@ -1,9 +1,9 @@
 import { Provider } from 'react-redux';
-import { DefaultLayout } from '../components/Layouts';
-import { store } from '../core/store';
+import { DefaultLayout } from '@components/Layouts';
+import { store } from '@core/store';
 import { ThemeProvider } from 'styled-components';
-import { theme } from '../styles/theme';
-import LayoutInner from '../components/Layouts/LayoutInner';
+import { theme } from '@styles/theme';
+import LayoutInner from '@components/Layouts/LayoutInner';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import NextNProgress from 'nextjs-progressbar';

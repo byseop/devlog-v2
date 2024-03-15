@@ -1,10 +1,10 @@
 import { useState, useCallback } from 'react';
-import Posts from '../Posts';
-import CategoryFilter from '../CategoryFilter';
-import TextFilter from '../TextFilter';
+import Posts from '@components/Posts';
+import CategoryFilter from '@components/CategoryFilter';
+import TextFilter from '@components/TextFilter';
 
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
-import type { Response } from '../../interfaces';
+import type { Response } from '@interfaces/index';
 
 interface IHomeProps {
   className?: string;

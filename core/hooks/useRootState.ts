@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import type { RootReducerTypes } from '../reducer';
+import type { RootReducerTypes } from '@core/reducer';
 
 type StateSelector<T> = (state: RootReducerTypes) => T;
 type EqualityFunction<T> = (left: T, right: T) => boolean;

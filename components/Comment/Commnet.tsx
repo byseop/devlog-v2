@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import useRootState from '../../core/hooks/useRootState';
+import useRootState from '@core/hooks/useRootState';
 
 const COMMENT_THEME = {
   light: 'github-light',

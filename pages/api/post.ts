@@ -6,7 +6,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import type { ExtendedRecordMap } from 'notion-types';
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<
     | Response<{
@@ -42,32 +42,37 @@ export default function handler(
     auth
   });
 
-  (async () => {
-    try {
-      if (req.method === 'GET') {
-        const response = (await notion.pages.retrieve({
-          page_id
-        })) as PageObjectResponse;
-        const notionPage = await notionRenderClient.getPage(page_id);
+  try {
+    if (req.method === 'GET') {
+      const response = (await notion.pages.retrieve({
+        page_id
+      })) as PageObjectResponse;
+      const notionPage = await notionRenderClient.getPage(page_id);
 
-        const data = {
-          notionPage,
-          post: response
-        };
+      const data = {
+        notionPage,
+        post: response
+      };
 
-        res.status(200).json({
-          data,
-          status: 'ok',
-          error: null
-        });
-      } else {
-        res.status(405).json({});
-        return;
-      }
-    } catch (e) {
-      const error = e as any;
-      const { status, body } = error;
-      res.status(status).json(JSON.parse(body));
+      res.status(200).json({
+        data,
+        status: 'ok',
+        error: null
+      });
+
+      return;
     }
-  })();
+
+    res.status(405).json({});
+
+    return;
+  } catch (e) {
+    const error = e as any;
+    const { body } = error;
+    const { status } = body;
+
+    res.status(status || 500).json(JSON.parse(body));
+
+    return;
+  }
 }

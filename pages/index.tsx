@@ -5,7 +5,11 @@ import { GetStaticProps } from 'next';
 import type { Response } from '@interfaces/index';
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 
-export default function ({ data }: { data: Response<PageObjectResponse[]> }) {
+export default function HomePage({
+  data
+}: {
+  data: Response<PageObjectResponse[]>;
+}) {
   return <Home initialPosts={data} />;
 }
 

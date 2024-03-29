@@ -22,7 +22,7 @@ interface IPostPageProps {
   }>;
 }
 
-export default function ({ id, data }: IPostPageProps) {
+export default function PostPage({ id, data }: IPostPageProps) {
   const cover = data?.data.post.cover as {
     type: 'external';
     external: {

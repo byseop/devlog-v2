@@ -1,7 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
 
-import type { IStyleCode } from '../core/reducer/styleTheme';
+import type { IStyleCode } from '@core/reducer/styleTheme';
 
 const GlobalStyle = createGlobalStyle<{ mode: IStyleCode }>`
   ${reset}

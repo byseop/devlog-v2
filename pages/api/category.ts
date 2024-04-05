@@ -1,12 +1,10 @@
 import { Client } from '@notionhq/client';
-import { NotionAPI } from 'notion-client';
+import crypto from 'crypto';
 
-import type { IAPIError, Response } from '../../interfaces';
+import type { IAPIError, Response } from '@interfaces/index';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
-import type { ExtendedRecordMap } from 'notion-types';
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Response<SelectPropertyResponse[]> | IAPIError>
 ) {
@@ -22,31 +20,36 @@ export default function handler(
     auth
   });
 
-  (async () => {
-    try {
-      if (req.method === 'GET') {
-        const response = await notion.databases.retrieve({
-          database_id
-        });
+  try {
+    if (req.method === 'GET') {
+      const response = await notion.databases.retrieve({
+        database_id: database_id
+      });
 
-        const data = (
-          response.properties
-            .category as MultiSelectDatabasePropertyConfigResponse
-        ).multi_select.options;
+      const data = (
+        response.properties
+          .category as MultiSelectDatabasePropertyConfigResponse
+      ).multi_select.options;
 
-        res.status(200).json({
-          data,
-          status: 'ok',
-          error: null
-        });
-      } else {
-        res.status(405).json({});
-        return;
-      }
-    } catch (e) {
-      const error = e as any;
-      const { status, body } = error;
-      res.status(status).json(JSON.parse(body));
+      res.status(200).json({
+        data,
+        status: 'ok',
+        error: null
+      });
+
+      return;
     }
-  })();
+
+    res.status(405).json({});
+
+    return;
+  } catch (e) {
+    const error = e as any;
+    const { body } = error;
+    const { status } = body;
+
+    res.status(status || 500).json(JSON.parse(body));
+
+    return;
+  }
 }

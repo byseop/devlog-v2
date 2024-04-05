@@ -1,18 +1,18 @@
 import dynamic from 'next/dynamic';
 import { NotionRenderer } from 'react-notion-x';
-import useRootState from '../../core/hooks/useRootState';
+import useRootState from '@core/hooks/useRootState';
 import Image from 'next/image';
-import { useGetPost } from '../../core/queries/posts';
-import Comment from '../Comment';
+import { useGetPost } from '@core/queries/posts';
+import Comment from '@components/Comment';
 import Link from 'next/link';
-import { customMapImageUrl } from '../../core/utils/notion-client/customImageMap';
+import { customMapImageUrl } from '@core/utils/notion-client/customImageMap';
 
 import type { ExtendedRecordMap } from 'notion-types';
 import type {
   PageObjectResponse,
   RichTextItemResponse
 } from '@notionhq/client/build/src/api-endpoints';
-import type { Response } from '../../interfaces';
+import type { Response } from '@interfaces/index';
 
 interface IPostProps {
   className?: string;

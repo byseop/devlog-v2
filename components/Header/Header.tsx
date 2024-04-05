@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { Fira_Mono } from '@next/font/google';
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
-import useRootState from '../../core/hooks/useRootState';
-import styleThemeSlice from '../../core/reducer/styleTheme';
+import useRootState from '@core/hooks/useRootState';
+import styleThemeSlice from '@core/reducer/styleTheme';
 
 import { BsGithub } from 'react-icons/bs';
 import { IoSunny, IoMoon } from 'react-icons/io5';

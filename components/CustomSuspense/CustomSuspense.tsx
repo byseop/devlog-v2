@@ -1,5 +1,5 @@
 import { ComponentProps, Suspense } from 'react';
-import useMounted from '../../core/hooks/useMounted';
+import useMounted from '@core/hooks/useMounted';
 
 const CustomSuspense = (props: ComponentProps<typeof Suspense>) => {
   const isMounted = useMounted();

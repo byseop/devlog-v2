@@ -1,5 +1,5 @@
 import { getServerSideSitemapIndex } from 'next-sitemap';
-import { postApis } from '../../core/apis/posts';
+import { postApis } from '@core/apis/posts';
 
 import type { GetServerSideProps } from 'next';
 

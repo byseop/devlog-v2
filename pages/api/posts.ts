@@ -2,13 +2,13 @@ import { Client } from '@notionhq/client';
 import { DEFINED_FILTER } from './constant';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
-import type { IAPIError, Response } from '../../interfaces';
+import type { IAPIError, Response } from '@interfaces/index';
 import type {
   PageObjectResponse,
   QueryDatabaseParameters
 } from '@notionhq/client/build/src/api-endpoints';
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Response<PageObjectResponse[]> | IAPIError>
 ) {
@@ -34,64 +34,69 @@ export default function handler(
     auth
   });
 
-  (async () => {
-    try {
-      if (req.method === 'GET') {
-        const { query } = req;
-        const filter: QueryDatabaseParameters['filter'] = {
-          and: []
-        };
+  try {
+    if (req.method === 'GET') {
+      const { query } = req;
+      const filter: QueryDatabaseParameters['filter'] = {
+        and: []
+      };
 
-        if (isProduction) {
-          filter.and.push(DEFINED_FILTER.STATUS_PUBLISHED);
-        }
-
-        if (query.filter) {
-          const paramsFilter = JSON.parse(query.filter as string);
-          if (paramsFilter.categories) {
-            paramsFilter.categories.forEach((category: string) => {
-              filter.and.push(DEFINED_FILTER.MULTI_SELECT_CATEGORY(category));
-            });
-          }
-
-          if (paramsFilter.query) {
-            const query = paramsFilter.query as string;
-            filter.and.push({
-              or: [
-                DEFINED_FILTER.TITLE_CONTAINED(query),
-                DEFINED_FILTER.RICH_TEXT_CONTAINED(query)
-              ]
-            });
-          }
-        }
-
-        const response = await notion.databases.query({
-          database_id,
-          filter,
-          sorts: [
-            {
-              property: 'publishDate',
-              direction: 'descending'
-            }
-          ],
-          page_size: (query.pageSize as number | undefined) || 20
-        });
-
-        const data = response.results as PageObjectResponse[];
-
-        res.status(200).json({
-          data,
-          status: 'ok',
-          error: null
-        });
-      } else {
-        res.status(405).json({});
-        return;
+      if (isProduction) {
+        filter.and.push(DEFINED_FILTER.STATUS_PUBLISHED);
       }
-    } catch (e) {
-      const error = e as any;
-      const { status, body } = error;
-      res.status(status).json(JSON.parse(body));
+
+      if (query.filter) {
+        const paramsFilter = JSON.parse(query.filter as string);
+        if (paramsFilter.categories) {
+          paramsFilter.categories.forEach((category: string) => {
+            filter.and.push(DEFINED_FILTER.MULTI_SELECT_CATEGORY(category));
+          });
+        }
+
+        if (paramsFilter.query) {
+          const query = paramsFilter.query as string;
+          filter.and.push({
+            or: [
+              DEFINED_FILTER.TITLE_CONTAINED(query),
+              DEFINED_FILTER.RICH_TEXT_CONTAINED(query)
+            ]
+          });
+        }
+      }
+
+      const response = await notion.databases.query({
+        database_id,
+        filter,
+        sorts: [
+          {
+            property: 'publishDate',
+            direction: 'descending'
+          }
+        ],
+        page_size: (query.pageSize as number | undefined) || 20
+      });
+
+      const data = response.results as PageObjectResponse[];
+
+      res.status(200).json({
+        data,
+        status: 'ok',
+        error: null
+      });
+
+      return;
     }
-  })();
+
+    res.status(405).json({});
+
+    return;
+  } catch (e) {
+    const error = e as any;
+    const { body } = error;
+    const { status } = body;
+
+    res.status(status || 500).json(JSON.parse(body));
+
+    return;
+  }
 }

@@ -11,6 +11,7 @@ import Script from 'next/script';
 import { DefaultSeo } from 'next-seo';
 import SEO from '../next-seo.config';
 import { SkeletonTheme } from 'react-loading-skeleton';
+import { Analytics } from '@vercel/analytics/react';
 
 import 'react-loading-skeleton/dist/skeleton.css';
 
@@ -38,6 +39,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <ThemeProvider theme={theme}>
           <DefaultSeo {...SEO} />
           <NextNProgress />
+          <Analytics />
           {process.env.NEXT_PUBLIC_APP_ENV === 'production' && (
             <>
               <Script

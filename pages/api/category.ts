@@ -1,5 +1,4 @@
 import { Client } from '@notionhq/client';
-import crypto from 'crypto';
 
 import type { IAPIError, Response } from '@interfaces/index';
 import type { NextApiRequest, NextApiResponse } from 'next';

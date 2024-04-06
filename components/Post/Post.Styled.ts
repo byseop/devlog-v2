@@ -56,6 +56,15 @@ const S = styled(Post)`
     width: 100%;
     margin: auto;
   }
+
+  .post-options {
+    margin-top: 4rem;
+    p.post-date {
+      color: var(--text3);
+      font-size: 1.6rem;
+    }
+  }
+
   @media screen and (max-width: 700px) {
     .article-header {
       .post-title-wrap {

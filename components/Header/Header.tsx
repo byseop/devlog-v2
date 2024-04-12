@@ -71,6 +71,7 @@ const Header: React.FC<IProps> = ({ className }) => {
     if (mode === 'dark') {
       themeToggleRef?.goToAndStop(300, true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loaded]);
 
   return (

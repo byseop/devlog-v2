@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { customMapImageUrl } from '@core/utils/notion-client/customImageMap';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
+import LikeButton from '@components/LikeButton';
 
 import type { ExtendedRecordMap } from 'notion-types';
 import type {
@@ -15,6 +16,7 @@ import type {
   RichTextItemResponse
 } from '@notionhq/client/build/src/api-endpoints';
 import type { Response } from '@interfaces/index';
+import { useState } from 'react';
 
 interface IPostProps {
   className?: string;
@@ -33,6 +35,11 @@ const Code = dynamic(() =>
 
 const Post: React.FC<IPostProps> = ({ id, data, className }) => {
   const { mode } = useRootState((state) => state.theme);
+  const [bool, setBool] = useState(false);
+
+  const handleClickLike = () => {
+    setBool((bool) => !bool);
+  };
 
   const { data: postData } = useGetPost(id, {
     initialData: data
@@ -44,7 +51,6 @@ const Post: React.FC<IPostProps> = ({ id, data, className }) => {
       url: TextRequest;
     };
   };
-  console.log(postData);
 
   const title = postData?.data.post.properties.title as {
     type: 'title';
@@ -87,6 +93,10 @@ const Post: React.FC<IPostProps> = ({ id, data, className }) => {
                   {dayjs(pulishedDate.date.start).format('YYYY년 M월 D일')}
                 </p>
               )}
+
+              <div className="post-like">
+                <LikeButton isActive={bool} onClick={handleClickLike} />
+              </div>
             </div>
           </div>
         )}

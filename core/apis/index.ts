@@ -42,13 +42,13 @@ export async function request<R>({
   method = 'GET',
   url,
   params,
+  data,
   lang = 'ko'
 }: Request) {
-  let data;
   if (method !== 'GET' && params) data = params;
 
   const { data: result } = await api.request<Response<R>>({
-    method: method || 'GET',
+    method,
     url,
     headers: { 'Accept-Language': lang },
     ...(data && { data }),

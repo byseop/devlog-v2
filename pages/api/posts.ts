@@ -1,5 +1,6 @@
 import { Client } from '@notionhq/client';
 import { DEFINED_FILTER } from './constant';
+import { createApiSuccessResponse } from '@pages/api/utils';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 import type { IAPIError, Response } from '@interfaces/index';
@@ -78,11 +79,7 @@ export default async function handler(
 
       const data = response.results as PageObjectResponse[];
 
-      res.status(200).json({
-        data,
-        status: 'ok',
-        error: null
-      });
+      res.status(200).json(createApiSuccessResponse(data));
 
       return;
     }

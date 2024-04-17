@@ -1,9 +1,8 @@
 import { firestore } from '@pages/api/firebase';
-import { doc, getDoc, runTransaction } from 'firebase/firestore/lite';
+import { doc, getDoc, setDoc, runTransaction } from 'firebase/firestore/lite';
 import requestIp from 'request-ip';
 import { SHA256 } from 'crypto-js';
 import { createApiSuccessResponse } from '@pages/api/utils';
-
 import type { IAPIError, Response } from '@interfaces/index';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import type { ILikeResponse } from '@interfaces/post';
@@ -51,6 +50,7 @@ export default async function handler(
     }
 
     if (req.method === 'POST') {
+      console.log('start!!', req.method);
       const postId = req.body.id as string;
       await runTransaction(
         firestore,
@@ -58,18 +58,19 @@ export default async function handler(
           const docRef = getDocRef(postId);
           const docSnap = await transaction.get(docRef);
           const isDocSnapExists = docSnap.exists();
-
+          console.log(1, isDocSnapExists);
           if (!isDocSnapExists) {
-            transaction.set(docRef, {
+            console.log(2, isDocSnapExists);
+            await setDoc(docRef, {
               likeCount: 1,
               encryptedIpAddress: {
                 [hashedIp]: null
               }
             });
-
             return res.status(200).json(createApiSuccessResponse(null));
           }
 
+          console.log(3, isDocSnapExists);
           const { likeCount, encryptedIpAddress } = docSnap.data() as {
             likeCount: number;
             encryptedIpAddress: { [key: string]: null };
@@ -83,24 +84,24 @@ export default async function handler(
           } else {
             newEncryptedIpAddress[hashedIp] = null;
           }
+          console.log(4, isDocSnapExists);
 
           transaction.update(docRef, {
             likeCount: likeCount + (isAleadyLiked ? -1 : 1),
             encryptedIpAddress: newEncryptedIpAddress
           });
 
+          console.log(5, isDocSnapExists);
           return res.status(200).json(createApiSuccessResponse(null));
         },
         {
           maxAttempts: 1
         }
       );
-      return;
     }
-
+    console.log(123);
     return res.status(405).json({});
   } catch (e) {
-    console.log(123123123123);
     console.log(e);
     return res.status(500).json({ message: 'Unhandled Error' });
   }

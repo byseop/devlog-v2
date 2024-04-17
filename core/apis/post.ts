@@ -6,8 +6,12 @@ export const postApis = {
     request<IPostAdditionalInfoResponse>({
       url: '/post/additional-info',
       method: 'GET',
-      params: {
-        id
-      }
+      params: { id }
+    }),
+  updateLike: (id: string) =>
+    request<null>({
+      url: '/post/like',
+      method: 'POST',
+      data: { id }
     })
 };

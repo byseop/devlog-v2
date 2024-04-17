@@ -1,4 +1,5 @@
 import { request } from '@core/apis';
+import { createApiSuccessResponse } from '@pages/api/utils';
 
 import type { IAPIError, Response } from '@interfaces/index';
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -30,22 +31,17 @@ export default async function handler(
         }
       });
 
-      return res.status(200).json({
-        data: {
+      return res.status(200).json(
+        createApiSuccessResponse({
           like: likeRes.data
-        },
-        status: 'ok',
-        error: null
-      });
-
-      return;
+        })
+      );
     }
 
     res.status(405).json({});
 
     return;
   } catch (e) {
-    console.log('eeee', e);
     const error = e as any;
     const { body } = error;
     const { status } = body;

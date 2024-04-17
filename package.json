@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@lottiefiles/react-lottie-player": "^3.5.3",
-    "@next/font": "^13.0.5",
+    "@next/font": "13.0.5",
     "@notionhq/client": "^2.2.2",
     "@radix-ui/react-dialog": "^1.0.2",
     "@radix-ui/react-popover": "^1.0.2",

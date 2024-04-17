@@ -1,5 +1,6 @@
 import { Client } from '@notionhq/client';
 import { NotionAPI } from 'notion-client';
+import { createApiSuccessResponse } from '@pages/api/utils';
 
 import type { IAPIError, Response } from '@interfaces/index';
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -54,11 +55,7 @@ export default async function handler(
         post: response
       };
 
-      res.status(200).json({
-        data,
-        status: 'ok',
-        error: null
-      });
+      res.status(200).json(createApiSuccessResponse(data));
 
       return;
     }

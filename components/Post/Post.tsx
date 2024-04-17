@@ -6,6 +6,10 @@ import { useGetPost } from '@core/queries/posts';
 import Comment from '@components/Comment';
 import Link from 'next/link';
 import { customMapImageUrl } from '@core/utils/notion-client/customImageMap';
+import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
+import LikeButton from '@components/LikeButton';
+import { useGetAdditionalInfo, useUpdateLike } from '@core/queries/post';
 
 import type { ExtendedRecordMap } from 'notion-types';
 import type {
@@ -23,6 +27,8 @@ interface IPostProps {
   }>;
 }
 
+dayjs.locale('ko');
+
 const Code = dynamic(() =>
   import('react-notion-x/build/third-party/code').then((m) => m.Code)
 );
@@ -33,6 +39,10 @@ const Post: React.FC<IPostProps> = ({ id, data, className }) => {
   const { data: postData } = useGetPost(id, {
     initialData: data
   });
+
+  const { data: additionalData } = useGetAdditionalInfo(id);
+
+  const { mutate: mutateUpdateLike } = useUpdateLike(id);
 
   const cover = postData?.data.post.cover as {
     type: 'external';
@@ -46,13 +56,24 @@ const Post: React.FC<IPostProps> = ({ id, data, className }) => {
     title: Array<RichTextItemResponse>;
     id: string;
   };
+
   const subTitle = postData?.data.post.properties.subTitle as {
     type: 'rich_text';
     rich_text: Array<RichTextItemResponse>;
     id: string;
   };
 
+  const pulishedDate = postData?.data.post.properties.publishDate as {
+    type: 'date';
+    date: { start: string; end: string };
+    id: string;
+  };
+
   const linkMapper = (pageId: string) => `@${pageId}`;
+
+  const handleClickLike = () => {
+    mutateUpdateLike();
+  };
 
   return (
     <div className={`post-wrapper ${className}`}>
@@ -68,6 +89,22 @@ const Post: React.FC<IPostProps> = ({ id, data, className }) => {
           <div className="post-title-wrap">
             <h1>{title.title[0].plain_text}</h1>
             {subTitle && <h2>{subTitle.rich_text[0].plain_text}</h2>}
+            <div className="post-options">
+              {pulishedDate && (
+                <p className="post-date">
+                  byseop ·{' '}
+                  {dayjs(pulishedDate.date.start).format('YYYY년 M월 D일')}
+                </p>
+              )}
+
+              <div className="post-like">
+                <LikeButton
+                  count={additionalData?.data.like.likeCount}
+                  isActive={!!additionalData?.data.like.isLiked}
+                  onClick={handleClickLike}
+                />
+              </div>
+            </div>
           </div>
         )}
       </div>

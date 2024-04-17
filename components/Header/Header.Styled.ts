@@ -25,14 +25,6 @@ const S = styled(Header)`
       gap: 1.5rem;
 
       .btn-wrap {
-        &.btn-wrap--lottie {
-          button {
-            width: auto;
-            height: 40px;
-            background: none !important;
-            transition: none !important;
-          }
-        }
         button,
         a {
           display: block;

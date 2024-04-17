@@ -4,12 +4,9 @@ import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 import useRootState from '@core/hooks/useRootState';
 import styleThemeSlice from '@core/reducer/styleTheme';
-import { Player } from '@lottiefiles/react-lottie-player';
 
 import { BsGithub } from 'react-icons/bs';
-import changeThemeLottieJson from '@assets/lotties/change_theme.json';
-
-import type { AnimationItem } from 'lottie-web';
+import { IoSunny, IoMoon } from 'react-icons/io5';
 
 interface IProps {
   className?: string;
@@ -43,36 +40,17 @@ const Header: React.FC<IProps> = ({ className }) => {
   const dispatch = useDispatch();
   const { mode } = useRootState((state) => state.theme);
 
-  const [themeToggleRef, setThemeToggleRef] = useState<AnimationItem | null>();
-
   const handleClickThemeToggle = () => {
-    if (mode === 'light') {
-      dispatch(
-        styleThemeSlice.actions.toggle({
-          mode: 'dark'
-        })
-      );
-      themeToggleRef?.playSegments([40, 200], true);
-    } else {
-      dispatch(
-        styleThemeSlice.actions.toggle({
-          mode: 'light'
-        })
-      );
-      themeToggleRef?.playSegments([300, 450], true);
-    }
+    dispatch(
+      styleThemeSlice.actions.toggle({
+        mode: mode === 'light' ? 'dark' : 'light'
+      })
+    );
   };
 
   useEffect(() => {
     setLoaded(true);
   }, []);
-
-  useEffect(() => {
-    if (mode === 'dark') {
-      themeToggleRef?.goToAndStop(300, true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loaded]);
 
   return (
     <header id="header" className={`${className}`}>
@@ -90,18 +68,11 @@ const Header: React.FC<IProps> = ({ className }) => {
               </span>
             </a>
           </div>
-          <div
-            className="btn-wrap btn-wrap--lottie"
-            onClick={handleClickThemeToggle}
-          >
-            <button>
-              <Player
-                src={changeThemeLottieJson}
-                style={{ height: 40, width: 'auto ' }}
-                lottieRef={setThemeToggleRef}
-                speed={2.5}
-                keepLastFrame
-              />
+          <div className="btn-wrap">
+            <button onClick={handleClickThemeToggle}>
+              <span className="theme-icon">
+                {loaded ? mode === 'light' ? <IoSunny /> : <IoMoon /> : null}
+              </span>
             </button>
           </div>
         </div>

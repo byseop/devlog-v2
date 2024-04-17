@@ -100,7 +100,6 @@ export default async function handler(
 
     return res.status(405).json({});
   } catch (e) {
-    console.log(123123123123);
     console.log(e);
     return res.status(500).json({ message: 'Unhandled Error' });
   }

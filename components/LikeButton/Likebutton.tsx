@@ -19,27 +19,21 @@ const LikeButton: React.FC<ILikeButtonProps> = ({
   const [firstLottie, setFirstLottie] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!ref || firstLottie) {
+    if (!ref) {
       return;
     }
     if (isActive) {
-      ref.goToAndStop(90, true);
+      firstLottie
+        ? ref.playSegments([10, 90], true)
+        : ref.goToAndStop(90, true);
     } else {
-      ref.goToAndStop(180, true);
+      firstLottie
+        ? ref.playSegments([100, 180], true)
+        : ref.goToAndStop(180, true);
     }
 
-    setFirstLottie(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isActive, ref]);
-
-  useEffect(() => {
-    if (!ref || !firstLottie) {
-      return;
-    }
-    if (isActive) {
-      ref.playSegments([10, 90], true);
-    } else {
-      ref.playSegments([100, 180], true);
+    if (!firstLottie) {
+      setFirstLottie(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isActive, ref]);

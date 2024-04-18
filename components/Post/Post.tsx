@@ -9,7 +9,12 @@ import { customMapImageUrl } from '@core/utils/notion-client/customImageMap';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import LikeButton from '@components/LikeButton';
-import { useGetAdditionalInfo, useUpdateLike } from '@core/queries/post';
+import {
+  postQueryKey,
+  useGetAdditionalInfo,
+  useUpdateLike
+} from '@core/queries/post';
+import { useIsMutating } from 'react-query';
 
 import type { ExtendedRecordMap } from 'notion-types';
 import type {
@@ -44,6 +49,8 @@ const Post: React.FC<IPostProps> = ({ id, data, className }) => {
 
   const { mutate: mutateUpdateLike } = useUpdateLike(id);
 
+  const isLikeLoading = useIsMutating(postQueryKey.updateLike(id));
+
   const cover = postData?.data.post.cover as {
     type: 'external';
     external: {
@@ -72,6 +79,10 @@ const Post: React.FC<IPostProps> = ({ id, data, className }) => {
   const linkMapper = (pageId: string) => `@${pageId}`;
 
   const handleClickLike = () => {
+    if (isLikeLoading) {
+      return;
+    }
+
     mutateUpdateLike();
   };
 

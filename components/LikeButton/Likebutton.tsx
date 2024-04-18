@@ -1,6 +1,5 @@
 import { HTMLAttributes, useEffect, useState } from 'react';
 import { Player } from '@lottiefiles/react-lottie-player';
-import LikeLottieJson from '@assets/lotties/like.json';
 import numeral from 'numeral';
 
 import type { AnimationItem } from 'lottie-web';
@@ -48,7 +47,7 @@ const LikeButton: React.FC<ILikeButtonProps> = ({
   return (
     <button {...props}>
       <Player
-        src={LikeLottieJson}
+        src="/assets/lotties/like.json"
         style={{ width: 80, height: 80 }}
         lottieRef={setRef}
         keepLastFrame

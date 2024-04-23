@@ -8,7 +8,6 @@ import Link from 'next/link';
 import { customMapImageUrl } from '@core/utils/notion-client/customImageMap';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
-import LikeButton from '@components/LikeButton';
 import {
   postQueryKey,
   useGetAdditionalInfo,
@@ -37,6 +36,7 @@ dayjs.locale('ko');
 const Code = dynamic(() =>
   import('react-notion-x/build/third-party/code').then((m) => m.Code)
 );
+const LikeButton = dynamic(() => import('@components/LikeButton'));
 
 const Post: React.FC<IPostProps> = ({ id, data, className }) => {
   const { mode } = useRootState((state) => state.theme);

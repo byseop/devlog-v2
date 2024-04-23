@@ -52,13 +52,12 @@ export default async function handler(
 
     if (req.method === 'POST') {
       const postId = req.body.id as string;
-      let isDocSnapExists = false;
       await runTransaction(
         firestore,
         async (transaction) => {
           const docRef = getDocRef(postId);
           const docSnap = await transaction.get(docRef);
-          isDocSnapExists = docSnap.exists();
+          const isDocSnapExists = docSnap.exists();
 
           if (!isDocSnapExists) {
             transaction.set(docRef, {
@@ -67,8 +66,7 @@ export default async function handler(
                 [hashedIp]: null
               }
             });
-
-            return res.status(200).json(createApiSuccessResponse(null));
+            return;
           }
 
           const { likeCount, encryptedIpAddress } = docSnap.data() as {
@@ -95,9 +93,7 @@ export default async function handler(
         }
       );
 
-      if (isDocSnapExists) {
-        return res.status(200).json(createApiSuccessResponse(null));
-      }
+      return res.status(200).json(createApiSuccessResponse(null));
     }
 
     return res.status(405).json({});

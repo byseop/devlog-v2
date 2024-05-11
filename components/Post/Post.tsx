@@ -111,7 +111,7 @@ const Post: React.FC<IPostProps> = ({ id, data, className }) => {
               <div className="post-like">
                 <LikeButton
                   count={additionalData?.data.like.likeCount}
-                  isActive={!!additionalData?.data.like.isLiked}
+                  isActive={additionalData?.data.like.isLiked}
                   onClick={handleClickLike}
                 />
               </div>

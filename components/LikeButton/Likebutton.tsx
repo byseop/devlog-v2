@@ -1,6 +1,7 @@
-import { HTMLAttributes, useEffect, useState } from 'react';
-import { Player } from '@lottiefiles/react-lottie-player';
+import { HTMLAttributes, useEffect, useRef, useState } from 'react';
 import numeral from 'numeral';
+import likeJson from '@assets/lotties/like.json';
+import Lottie from 'react-lottie-player';
 
 import type { AnimationItem } from 'lottie-web';
 
@@ -14,39 +15,40 @@ const LikeButton: React.FC<ILikeButtonProps> = ({
   count,
   ...props
 }) => {
-  const likeCount = count || 0;
-  const [ref, setRef] = useState<AnimationItem | null>(null);
-  const [firstLottie, setFirstLottie] = useState<boolean>(false);
+  const lottieRef = useRef<AnimationItem>(null);
+  const [isInitialLottie, setIsInitialLottie] = useState<boolean>(true);
 
   useEffect(() => {
-    if (!ref) {
-      return;
-    }
-    if (isActive) {
-      firstLottie
-        ? ref.playSegments([10, 90], true)
-        : ref.goToAndStop(90, true);
-    } else {
-      firstLottie
-        ? ref.playSegments([100, 180], true)
-        : ref.goToAndStop(180, true);
-    }
+    if (!lottieRef.current || typeof isActive === 'undefined') return;
 
-    if (!firstLottie) {
-      setFirstLottie(true);
+    if (isActive) {
+      if (isInitialLottie) {
+        lottieRef.current.goToAndStop(90, true);
+        setIsInitialLottie(false);
+      } else {
+        lottieRef.current.playSegments([10, 90], true);
+      }
+    } else {
+      if (isInitialLottie) {
+        lottieRef.current.goToAndStop(180, true);
+        setIsInitialLottie(false);
+      } else {
+        lottieRef.current.playSegments([100, 180], true);
+      }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isActive, ref]);
+  }, [lottieRef.current, isActive]);
 
   return (
     <button {...props}>
-      <Player
-        src="/assets/lotties/like.json"
+      <Lottie
+        ref={lottieRef}
+        animationData={likeJson}
         style={{ width: 80, height: 80 }}
-        lottieRef={setRef}
-        keepLastFrame
+        loop={false}
       />
-      {likeCount >= 1000 ? numeral(likeCount).format('0.0a') : likeCount}
+      {typeof count === 'number' && count >= 1000
+        ? numeral(count).format('0.0a')
+        : count}
     </button>
   );
 };

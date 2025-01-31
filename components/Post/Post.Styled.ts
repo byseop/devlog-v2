@@ -66,29 +66,6 @@ const S = styled(Post)`
       color: var(--text3);
       font-size: 1.6rem;
     }
-
-    .post-like {
-      button {
-        width: 40px;
-        height: 40px;
-        position: relative;
-        background: transparent;
-        border: none;
-        padding: 0;
-        margin: 0;
-        cursor: pointer;
-        color: var(--text1);
-        font-size: 1.5rem;
-
-        > div {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          margin-left: -34px;
-        }
-      }
-    }
   }
 
   @media screen and (max-width: 700px) {

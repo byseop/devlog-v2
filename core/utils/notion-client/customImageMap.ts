@@ -5,18 +5,25 @@ export const customMapImageUrl = (url: string, block: Block): string => {
     throw new Error("URL can't be empty");
   }
 
+  // data: URLs는 그대로 반환
   if (url.startsWith('data:')) {
     return url;
   }
 
-  // more recent versions of notion don't proxy unsplash images
-  if (url.startsWith('https://images.unsplash.com')) {
-    return url;
+  // 외부 이미지는 직접 프록시
+  if (url.startsWith('https://') || url.startsWith('http://')) {
+    return `/api/my-blog-images?url=${encodeURIComponent(url)}`;
+  }
+
+  // Notion 내부 이미지 (file.notion.so)의 경우
+  if (url.includes('file.notion.so')) {
+    return `/api/my-blog-images?url=${encodeURIComponent(url)}`;
   }
 
   try {
     const u = new URL(url);
 
+    // AWS S3 호스팅 이미지
     if (
       u.pathname.startsWith('/secure.notion-static.com') &&
       u.hostname.endsWith('.amazonaws.com')
@@ -26,32 +33,20 @@ export const customMapImageUrl = (url: string, block: Block): string => {
         u.searchParams.has('X-Amz-Signature') &&
         u.searchParams.has('X-Amz-Algorithm')
       ) {
-        // if the URL is already signed, then use it as-is
-        url = u.origin + u.pathname;
+        return `/api/my-blog-images?url=${encodeURIComponent(
+          u.origin + u.pathname
+        )}`;
       }
     }
   } catch {
-    // ignore invalid urls
+    // 잘못된 URL 무시
   }
 
+  // Notion 상대 경로를 절대 경로로 변환
   if (url.startsWith('/images')) {
     url = `https://www.notion.so${url}`;
   }
 
-  url = `https://www.notion.so${
-    url.startsWith('/image') ? url : `/image/${encodeURIComponent(url)}`
-  }`;
-
-  const notionImageUrlV2 = new URL(url);
-  let table = block.parent_table === 'space' ? 'block' : block.parent_table;
-  if (table === 'collection' || table === 'team') {
-    table = 'block';
-  }
-  notionImageUrlV2.searchParams.set('table', table);
-  notionImageUrlV2.searchParams.set('id', block.id);
-  notionImageUrlV2.searchParams.set('cache', 'v2');
-
-  url = notionImageUrlV2.toString();
-
-  return url;
+  // 최종 URL 반환
+  return `/api/my-blog-images?url=${encodeURIComponent(url)}`;
 };

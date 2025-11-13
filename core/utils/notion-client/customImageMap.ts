@@ -1,8 +1,8 @@
 import { Block } from 'notion-types';
 
-export const customMapImageUrl = (url: string, block: Block): string => {
+export const customMapImageUrl = (url: string | undefined, block: Block): string => {
   if (!url) {
-    throw new Error("URL can't be empty");
+    return '';
   }
 
   // data: URLs는 그대로 반환

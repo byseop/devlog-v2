@@ -1,5 +1,7 @@
+'use client';
+
 import { useState, useEffect } from 'react';
-import useRootState from '@core/hooks/useRootState';
+import { useTheme } from '@/contexts/ThemeContext';
 
 const COMMENT_THEME = {
   light: 'github-light',
@@ -8,7 +10,7 @@ const COMMENT_THEME = {
 
 const Comment = () => {
   const [container, setContainer] = useState<Element | null>(null);
-  const { mode } = useRootState((state) => state.theme);
+  const { mode } = useTheme();
 
   useEffect(() => {
     if (!container) return;

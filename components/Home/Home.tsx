@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useCallback } from 'react';
 import Posts from '@components/Posts';
 import CategoryFilter from '@components/CategoryFilter';

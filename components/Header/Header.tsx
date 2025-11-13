@@ -1,9 +1,9 @@
+'use client';
+
 import { useEffect, useState } from 'react';
-import { Fira_Mono } from '@next/font/google';
+import { Fira_Mono } from 'next/font/google';
 import Link from 'next/link';
-import { useDispatch } from 'react-redux';
-import useRootState from '@core/hooks/useRootState';
-import styleThemeSlice from '@core/reducer/styleTheme';
+import { useTheme } from '@/contexts/ThemeContext';
 
 import { BsGithub } from 'react-icons/bs';
 import { IoSunny, IoMoon } from 'react-icons/io5';
@@ -37,15 +37,10 @@ const firaMono = Fira_Mono({
 
 const Header: React.FC<IProps> = ({ className }) => {
   const [loaded, setLoaded] = useState<boolean>(false);
-  const dispatch = useDispatch();
-  const { mode } = useRootState((state) => state.theme);
+  const { mode, toggleTheme } = useTheme();
 
   const handleClickThemeToggle = () => {
-    dispatch(
-      styleThemeSlice.actions.toggle({
-        mode: mode === 'light' ? 'dark' : 'light'
-      })
-    );
+    toggleTheme();
   };
 
   useEffect(() => {

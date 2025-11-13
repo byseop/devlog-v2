@@ -1,6 +1,8 @@
+'use client';
+
 import dynamic from 'next/dynamic';
 import { NotionRenderer } from 'react-notion-x';
-import useRootState from '@core/hooks/useRootState';
+import { useTheme } from '@/contexts/ThemeContext';
 import Image from 'next/image';
 import { useGetPost } from '@core/queries/posts';
 import Comment from '@components/Comment';
@@ -13,7 +15,7 @@ import {
   useGetAdditionalInfo,
   useUpdateLike
 } from '@core/queries/post';
-import { useIsMutating } from 'react-query';
+import { useIsMutating } from '@tanstack/react-query';
 
 import type { ExtendedRecordMap } from 'notion-types';
 import type {
@@ -39,7 +41,7 @@ const Code = dynamic(() =>
 const LikeButton = dynamic(() => import('@components/LikeButton'));
 
 const Post: React.FC<IPostProps> = ({ id, data, className }) => {
-  const { mode } = useRootState((state) => state.theme);
+  const { mode } = useTheme();
 
   const { data: postData } = useGetPost(id, {
     initialData: data
@@ -49,7 +51,9 @@ const Post: React.FC<IPostProps> = ({ id, data, className }) => {
 
   const { mutate: mutateUpdateLike } = useUpdateLike(id);
 
-  const isLikeLoading = useIsMutating(postQueryKey.updateLike(id));
+  const isLikeLoading = useIsMutating({
+    mutationKey: postQueryKey.updateLike(id)
+  });
 
   const cover = postData?.data.post.cover as {
     type: 'external';

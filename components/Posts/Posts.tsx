@@ -5,7 +5,7 @@ import * as PostCard from '@components/PostCard';
 
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import type { Response } from '@interfaces/index';
-import { QueryErrorResetBoundary } from 'react-query';
+import { QueryErrorResetBoundary } from '@tanstack/react-query';
 import useMounted from '@core/hooks/useMounted';
 
 interface IPostsProps {
@@ -24,27 +24,29 @@ const Posts: React.FC<IPostsProps> = ({
   return (
     <div className={`posts-wrapper ${className}`}>
       <QueryErrorResetBoundary>
-        <CustomSuspense
-          fallback={
-            <ul>
-              <li>
-                <PostCard.Skeleton />
-              </li>
-              <li>
-                <PostCard.Skeleton />
-              </li>
-              <li>
-                <PostCard.Skeleton />
-              </li>
-            </ul>
-          }
-        >
-          <PostList
-            initialPosts={initialPosts}
-            selectedCategory={selectedCategory}
-            enteredText={enteredText}
-          />
-        </CustomSuspense>
+        {() => (
+          <CustomSuspense
+            fallback={
+              <ul>
+                <li>
+                  <PostCard.Skeleton />
+                </li>
+                <li>
+                  <PostCard.Skeleton />
+                </li>
+                <li>
+                  <PostCard.Skeleton />
+                </li>
+              </ul>
+            }
+          >
+            <PostList
+              initialPosts={initialPosts}
+              selectedCategory={selectedCategory}
+              enteredText={enteredText}
+            />
+          </CustomSuspense>
+        )}
       </QueryErrorResetBoundary>
     </div>
   );
@@ -66,15 +68,13 @@ const PostList: React.FC<IPostsProps> = ({
       })
     },
     {
-      suspense: true,
-      useErrorBoundary: true,
       initialData: !mounted ? initialPosts : undefined
     }
   );
 
   return (
     <ul>
-      {data?.data.map((post) => (
+      {data.data.map((post) => (
         <li key={post.id}>
           <PostCard.Contents data={post} />
         </li>

@@ -1,41 +1,41 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-
 import type { Response } from '@interfaces/index';
 
-export const api: AxiosInstance = axios.create({
-  baseURL:
-    process.env.NEXT_PUBLIC_APP_ENV === 'production'
-      ? 'https://byseop.com/api'
-      : 'http://localhost:3000/api',
-  headers: {
-    'Content-Type': 'application/json',
-    'Accept-Language': 'ko'
-  },
-  timeout: 10000
-});
+const BASE_URL =
+  process.env.NEXT_PUBLIC_APP_ENV === 'production'
+    ? 'https://byseop.com/api'
+    : 'http://localhost:3000/api';
 
-// interface
-api.interceptors.request.use(
-  (config) => {
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
-api.interceptors.response.use(
-  (config) => {
-    return config;
-  },
-  async (error) => {
-    return Promise.reject(error);
-  }
-);
+const DEFAULT_TIMEOUT = 10000;
 
-interface Request extends AxiosRequestConfig {
+interface RequestConfig {
+  method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
   url: string;
+  params?: Record<string, any>;
+  data?: any;
   body?: FormData;
   lang?: string;
+  signal?: AbortSignal;
+}
+
+async function fetchWithTimeout(
+  url: string,
+  options: RequestInit,
+  timeout: number = DEFAULT_TIMEOUT
+): Promise<globalThis.Response> {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+  try {
+    const response = await fetch(url, {
+      ...options,
+      signal: options.signal || controller.signal
+    });
+    clearTimeout(timeoutId);
+    return response;
+  } catch (error) {
+    clearTimeout(timeoutId);
+    throw error;
+  }
 }
 
 export async function request<R>({
@@ -43,26 +43,63 @@ export async function request<R>({
   url,
   params,
   data,
-  lang = 'ko'
-}: Request) {
-  if (method !== 'GET' && params) data = params;
+  lang = 'ko',
+  signal
+}: RequestConfig): Promise<Response<R>> {
+  const fullUrl = new URL(`${BASE_URL}${url}`);
 
-  const { data: result } = await api.request<Response<R>>({
+  if (method === 'GET' && params) {
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        fullUrl.searchParams.append(key, String(value));
+      }
+    });
+  }
+
+  const options: RequestInit = {
     method,
-    url,
-    headers: { 'Accept-Language': lang },
-    ...(data && { data }),
-    ...(params && method === 'GET' && { params })
-  });
-  return result;
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept-Language': lang
+    },
+    signal
+  };
+
+  if (method !== 'GET' && data) {
+    options.body = JSON.stringify(data);
+  }
+
+  const response = await fetchWithTimeout(fullUrl.toString(), options);
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  return await response.json();
 }
 
-export async function formRequest<R>({ url, data, lang = 'ko' }: Request) {
-  const { data: result } = await api.request<Response<R>>({
+export async function formRequest<R>({
+  url,
+  data,
+  lang = 'ko',
+  signal
+}: RequestConfig): Promise<Response<R>> {
+  const fullUrl = new URL(`${BASE_URL}${url}`);
+
+  const options: RequestInit = {
     method: 'POST',
-    url,
-    headers: { 'Accept-Language': lang, 'Content-Type': 'multipart/form-data' },
-    data
-  });
-  return result;
+    headers: {
+      'Accept-Language': lang
+    },
+    body: data,
+    signal
+  };
+
+  const response = await fetchWithTimeout(fullUrl.toString(), options);
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  return await response.json();
 }

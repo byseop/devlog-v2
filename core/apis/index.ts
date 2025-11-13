@@ -46,7 +46,7 @@ export async function request<R>({
   lang = 'ko',
   signal
 }: RequestConfig): Promise<Response<R>> {
-  const fullUrl = new URL(url, BASE_URL);
+  const fullUrl = new URL(`${BASE_URL}${url}`);
 
   if (method === 'GET' && params) {
     Object.entries(params).forEach(([key, value]) => {
@@ -84,7 +84,7 @@ export async function formRequest<R>({
   lang = 'ko',
   signal
 }: RequestConfig): Promise<Response<R>> {
-  const fullUrl = new URL(url, BASE_URL);
+  const fullUrl = new URL(`${BASE_URL}${url}`);
 
   const options: RequestInit = {
     method: 'POST',

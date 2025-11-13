@@ -3,7 +3,7 @@ import { useGetPosts } from '@core/queries/posts';
 import CustomSuspense from '@components/CustomSuspense';
 import * as PostCard from '@components/PostCard';
 
-import type { PageObjectResponse } from '@notionhq/client/build/src';
+import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import type { Response } from '@interfaces/index';
 import { QueryErrorResetBoundary } from '@tanstack/react-query';
 import useMounted from '@core/hooks/useMounted';

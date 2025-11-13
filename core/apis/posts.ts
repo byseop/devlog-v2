@@ -1,4 +1,4 @@
-import { PageObjectResponse } from '@notionhq/client/build/src';
+import { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import { request } from './';
 
 import type { ExtendedRecordMap } from 'notion-types';

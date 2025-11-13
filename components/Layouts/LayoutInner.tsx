@@ -1,8 +1,10 @@
-import useRootState from '@core/hooks/useRootState';
+'use client';
+
+import { useTheme } from '@/contexts/ThemeContext';
 import GlobalStyle from '@styles/global';
 
 const LayoutInner = ({ children }: React.PropsWithChildren) => {
-  const { mode } = useRootState((state) => state.theme);
+  const { mode } = useTheme();
 
   return (
     <>

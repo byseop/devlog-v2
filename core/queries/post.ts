@@ -7,6 +7,7 @@ export const postQueryKey = {
 };
 
 export const useGetAdditionalInfo = (id: string) => {
+  console.log(id);
   return useQuery({
     queryKey: postQueryKey.getAdditionalInfo(id),
     queryFn: () => postApis.getAdditionalInfo(id)

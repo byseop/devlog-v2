@@ -1,9 +1,9 @@
 import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
 
-import type { IStyleCode } from '@core/reducer/styleTheme';
+import type { ThemeMode } from '@/contexts/ThemeContext';
 
-const GlobalStyle = createGlobalStyle<{ mode: IStyleCode }>`
+const GlobalStyle = createGlobalStyle<{ mode: ThemeMode }>`
   ${reset}
   * {
     /* transition: color 0.2s ease-out; */

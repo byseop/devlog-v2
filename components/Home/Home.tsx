@@ -1,9 +1,11 @@
+'use client';
+
 import { useState, useCallback } from 'react';
 import Posts from '@components/Posts';
 import CategoryFilter from '@components/CategoryFilter';
 import TextFilter from '@components/TextFilter';
 
-import type { PageObjectResponse } from '@notionhq/client/build/src';
+import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import type { Response } from '@interfaces/index';
 
 interface IHomeProps {

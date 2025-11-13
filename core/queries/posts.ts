@@ -1,7 +1,7 @@
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { postApis } from '@core/apis/posts';
 
-import type { PageObjectResponse } from '@notionhq/client/build/src';
+import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import type { Response } from '@interfaces/index';
 import type { ExtendedRecordMap } from 'notion-types';
 import { IPostsParams } from '@interfaces/posts';

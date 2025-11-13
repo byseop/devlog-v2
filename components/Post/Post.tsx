@@ -1,6 +1,8 @@
+'use client';
+
 import dynamic from 'next/dynamic';
 import { NotionRenderer } from 'react-notion-x';
-import useRootState from '@core/hooks/useRootState';
+import { useTheme } from '@/contexts/ThemeContext';
 import Image from 'next/image';
 import { useGetPost } from '@core/queries/posts';
 import Comment from '@components/Comment';
@@ -19,7 +21,7 @@ import type { ExtendedRecordMap } from 'notion-types';
 import type {
   PageObjectResponse,
   RichTextItemResponse
-} from '@notionhq/client/build/src';
+} from '@notionhq/client/build/src/api-endpoints';
 import type { Response } from '@interfaces/index';
 
 interface IPostProps {
@@ -39,7 +41,7 @@ const Code = dynamic(() =>
 const LikeButton = dynamic(() => import('@components/LikeButton'));
 
 const Post: React.FC<IPostProps> = ({ id, data, className }) => {
-  const { mode } = useRootState((state) => state.theme);
+  const { mode } = useTheme();
 
   const { data: postData } = useGetPost(id, {
     initialData: data

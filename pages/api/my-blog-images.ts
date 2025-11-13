@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import axios from 'axios';
 
 export default async function handler(
   req: NextApiRequest,
@@ -12,10 +11,8 @@ export default async function handler(
   const decodedUrl = decodeURIComponent(req.query.url);
 
   try {
-    const response = await axios({
-      url: decodedUrl,
+    const response = await fetch(decodedUrl, {
       method: 'GET',
-      responseType: 'arraybuffer',
       headers: {
         'User-Agent':
           'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
@@ -24,15 +21,22 @@ export default async function handler(
         Referer: 'https://www.notion.so/',
         Origin: 'https://www.notion.so'
       },
-      maxRedirects: 5
+      redirect: 'follow'
     });
+
+    if (!response.ok) {
+      return res.status(500).json({ error: 'Failed to proxy image' });
+    }
+
+    const arrayBuffer = await response.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
 
     res.setHeader('Cache-Control', 'public, max-age=31536000');
     res.setHeader(
       'Content-Type',
-      response.headers['content-type'] || 'image/jpeg'
+      response.headers.get('content-type') || 'image/jpeg'
     );
-    res.send(response.data);
+    res.send(buffer);
   } catch (error) {
     res.status(500).json({ error: 'Failed to proxy image' });
   }

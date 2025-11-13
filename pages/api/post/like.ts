@@ -1,8 +1,8 @@
-import { firestore } from '@pages/api/firebase';
+import { firestore } from '@core/firebase';
 import { doc, getDoc, runTransaction } from 'firebase/firestore/lite';
 import requestIp from 'request-ip';
 import { SHA256 } from 'crypto-js';
-import { createApiSuccessResponse } from '@pages/api/utils';
+import { createApiSuccessResponse } from '@core/utils';
 
 import type { IAPIError, Response } from '@interfaces/index';
 import type { NextApiRequest, NextApiResponse } from 'next';

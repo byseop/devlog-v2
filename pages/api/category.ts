@@ -1,5 +1,5 @@
 import { Client } from '@notionhq/client';
-import { createApiSuccessResponse } from '@pages/api/utils';
+import { createApiSuccessResponse } from '@core/utils';
 
 import type { IAPIError, Response } from '@interfaces/index';
 import type { NextApiRequest, NextApiResponse } from 'next';

@@ -2,35 +2,35 @@
 
 module.exports = {
   reactStrictMode: true,
-  swcMinify: false,
   compiler: {
-    styledComponents: {
-      displayName: true,
-      ssr: true
-    }
+    styledComponents: true
   },
   images: {
-    domains: ['www.notion.so']
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'www.notion.so'
+      }
+    ]
   },
   async headers() {
     return [
       {
-        source: '/api/:path',
+        source: '/api/:path*',
         headers: [
-          { key: 'Access-Controll-Allow-Credentials', value: 'true' },
+          { key: 'Access-Control-Allow-Credentials', value: 'true' },
           {
-            key: 'Access-Controll-Allow-Origin',
-            value:
-              'http://localhost:3000, https://byseop.com, https://devlog-v2-rj71-9z91i9fdn-byseops-projects.vercel.app/'
+            key: 'Access-Control-Allow-Origin',
+            value: '*'
           },
           {
-            key: 'Access-Controll-Allow-Methods',
+            key: 'Access-Control-Allow-Methods',
             value: 'GET,OPTIONS,PATCH,POST,PUT'
           },
           {
-            key: 'Access-Controll-Allow-Headers',
+            key: 'Access-Control-Allow-Headers',
             value:
-              '"X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"'
+              'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
           }
         ]
       }

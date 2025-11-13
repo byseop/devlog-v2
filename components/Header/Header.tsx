@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Fira_Mono } from '@next/font/google';
+import { Fira_Mono } from 'next/font/google';
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 import useRootState from '@core/hooks/useRootState';

@@ -1,6 +1,6 @@
 import { Client } from '@notionhq/client';
-import { DEFINED_FILTER } from './constant';
-import { createApiSuccessResponse } from '@pages/api/utils';
+import { DEFINED_FILTER } from '@core/constants';
+import { createApiSuccessResponse } from '@core/utils';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 import type { IAPIError, Response } from '@interfaces/index';

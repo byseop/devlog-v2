@@ -7,7 +7,9 @@ import type {
   RichTextItemResponse
 } from '@notionhq/client/build/src/api-endpoints';
 
-export const revalidate = 3600; // 1 hour
+// Revalidate every 30 minutes to ensure Notion image URLs stay valid
+// Notion image URLs typically expire after 1 hour (3600s)
+export const revalidate = 1800; // 30 minutes
 
 interface PostPageProps {
   params: Promise<{ id: string }>;

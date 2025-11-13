@@ -29,11 +29,13 @@ nvm use 20.19.0
 ```
 
 Update `.nvmrc`:
+
 ```
 v20.19.0
 ```
 
 Update `package.json`:
+
 ```json
 {
   "engines": {
@@ -49,13 +51,13 @@ Update `package.json`:
 ```json
 {
   "dependencies": {
-    "next": "^16.0.2",           // from 13.5.6
-    "react": "^19.0.0",          // from 18.2.0
-    "react-dom": "^19.0.0",      // from 18.2.0
+    "next": "^16.0.2", // from 13.5.6
+    "react": "^19.0.0", // from 18.2.0
+    "react-dom": "^19.0.0", // from 18.2.0
     "@notionhq/client": "5.4.0", // from 2.x (v5 API)
-    "@tanstack/react-query": "^5.62.14",           // from react-query 3.39.3
-    "@tanstack/react-query-devtools": "^5.62.14",  // new
-    "next-seo": "^6.6.0",        // from 7.0.1 (v7 not compatible)
+    "@tanstack/react-query": "^5.62.14", // from react-query 3.39.3
+    "@tanstack/react-query-devtools": "^5.62.14", // new
+    "next-seo": "^6.6.0", // from 7.0.1 (v7 not compatible)
     "nextjs-toploader": "^3.9.17" // replaces nextjs-progressbar
   }
 }
@@ -74,6 +76,7 @@ Update `package.json`:
 #### next.config.js
 
 **Before:**
+
 ```javascript
 module.exports = {
   swcMinify: true,
@@ -86,37 +89,40 @@ module.exports = {
   images: {
     domains: ['www.notion.so']
   }
-}
+};
 ```
 
 **After:**
+
 ```javascript
 module.exports = {
   reactStrictMode: true,
   compiler: {
-    styledComponents: true  // Simplified config
+    styledComponents: true // Simplified config
   },
   images: {
-    remotePatterns: [       // domains deprecated
+    remotePatterns: [
+      // domains deprecated
       {
         protocol: 'https',
         hostname: 'www.notion.so'
       }
     ]
   }
-}
+};
 ```
 
 #### tsconfig.json
 
 **Updates:**
+
 ```json
 {
   "compilerOptions": {
-    "moduleResolution": "bundler",  // was "node"
-    "jsx": "react-jsx",             // was "preserve"
+    "moduleResolution": "bundler", // was "node"
+    "jsx": "react-jsx", // was "preserve"
     "plugins": [{ "name": "next" }],
-    "include": [".next/types/**/*.ts"]  // Added
+    "include": [".next/types/**/*.ts"] // Added
   }
 }
 ```
@@ -124,11 +130,13 @@ module.exports = {
 ### 2. Font Imports
 
 **Before:**
+
 ```typescript
 import { Fira_Mono } from '@next/font/google';
 ```
 
 **After:**
+
 ```typescript
 import { Fira_Mono } from 'next/font/google';
 ```
@@ -140,6 +148,7 @@ Notion API v5 introduces a breaking change: `databases.query` is removed. You mu
 #### Database Query Migration
 
 **Before (v2):**
+
 ```typescript
 const response = await notion.databases.query({
   database_id,
@@ -149,6 +158,7 @@ const response = await notion.databases.query({
 ```
 
 **After (v5):**
+
 ```typescript
 // Step 1: Get database to find data source
 const database = await notion.databases.retrieve({ database_id });
@@ -164,11 +174,13 @@ const response = await notion.dataSources.query({
 #### Import Path Changes
 
 **Before:**
+
 ```typescript
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 ```
 
 **After:**
+
 ```typescript
 import type { PageObjectResponse } from '@notionhq/client/build/src';
 ```
@@ -182,12 +194,14 @@ import type { PageObjectResponse } from '@notionhq/client/build/src';
 #### Category API Example
 
 **Before:**
+
 ```typescript
 const response = await notion.databases.retrieve({ database_id });
 const data = response.properties.category.multi_select.options;
 ```
 
 **After:**
+
 ```typescript
 const database = await notion.databases.retrieve({ database_id });
 const dataSource = await notion.dataSources.retrieve({
@@ -203,6 +217,7 @@ Replace all `axios` calls with native `fetch` API.
 #### API Client Migration
 
 **Before (axios):**
+
 ```typescript
 import axios from 'axios';
 
@@ -219,8 +234,13 @@ export const request = async ({ method, url, params, data }) => {
 ```
 
 **After (fetch):**
+
 ```typescript
-async function fetchWithTimeout(url: string, options: RequestInit, timeout = 10000) {
+async function fetchWithTimeout(
+  url: string,
+  options: RequestInit,
+  timeout = 10000
+) {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeout);
 
@@ -237,7 +257,14 @@ async function fetchWithTimeout(url: string, options: RequestInit, timeout = 100
   }
 }
 
-export async function request<R>({ method = 'GET', url, params, data, lang = 'ko', signal }: RequestConfig): Promise<Response<R>> {
+export async function request<R>({
+  method = 'GET',
+  url,
+  params,
+  data,
+  lang = 'ko',
+  signal
+}: RequestConfig): Promise<Response<R>> {
   const fullUrl = new URL(url, BASE_URL);
 
   if (method === 'GET' && params) {
@@ -274,19 +301,25 @@ export async function request<R>({ method = 'GET', url, params, data, lang = 'ko
 #### Image Proxy Migration
 
 **Before:**
+
 ```typescript
 const response = await axios.get(decodedUrl, {
   responseType: 'arraybuffer',
-  headers: { /* ... */ }
+  headers: {
+    /* ... */
+  }
 });
 res.send(Buffer.from(response.data, 'binary'));
 ```
 
 **After:**
+
 ```typescript
 const response = await fetch(decodedUrl, {
   method: 'GET',
-  headers: { /* ... */ },
+  headers: {
+    /* ... */
+  },
   redirect: 'follow'
 });
 
@@ -302,12 +335,14 @@ Complete migration from `react-query` v3 to `@tanstack/react-query` v5.
 #### Import Changes
 
 **Before:**
+
 ```typescript
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 ```
 
 **After:**
+
 ```typescript
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -316,6 +351,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 #### useQuery API Changes
 
 **Before (v3):**
+
 ```typescript
 export const useGetPosts = (params, options) => {
   return useQuery(
@@ -327,6 +363,7 @@ export const useGetPosts = (params, options) => {
 ```
 
 **After (v5):**
+
 ```typescript
 export const useGetPosts = (params, options) => {
   return useQuery({
@@ -340,6 +377,7 @@ export const useGetPosts = (params, options) => {
 #### useMutation API Changes
 
 **Before (v3):**
+
 ```typescript
 export const useUpdateLike = (id) => {
   const queryClient = useQueryClient();
@@ -357,6 +395,7 @@ export const useUpdateLike = (id) => {
 ```
 
 **After (v5):**
+
 ```typescript
 export const useUpdateLike = (id) => {
   const queryClient = useQueryClient();
@@ -376,11 +415,13 @@ export const useUpdateLike = (id) => {
 #### useIsMutating Changes
 
 **Before:**
+
 ```typescript
 const isLikeLoading = useIsMutating(postQueryKey.updateLike(id));
 ```
 
 **After:**
+
 ```typescript
 const isLikeLoading = useIsMutating({
   mutationKey: postQueryKey.updateLike(id)
@@ -390,6 +431,7 @@ const isLikeLoading = useIsMutating({
 #### Suspense Migration
 
 **Before (v3):**
+
 ```typescript
 useQuery(queryKey, queryFn, {
   suspense: true,
@@ -398,6 +440,7 @@ useQuery(queryKey, queryFn, {
 ```
 
 **After (v5):**
+
 ```typescript
 import { useSuspenseQuery } from '@tanstack/react-query';
 
@@ -411,6 +454,7 @@ useSuspenseQuery({
 #### QueryErrorResetBoundary
 
 **Before:**
+
 ```typescript
 <QueryErrorResetBoundary>
   <Suspense fallback={<Loading />}>
@@ -420,6 +464,7 @@ useSuspenseQuery({
 ```
 
 **After:**
+
 ```typescript
 <QueryErrorResetBoundary>
   {() => (
@@ -435,6 +480,7 @@ useSuspenseQuery({
 Downgrade from v7 to v6 due to breaking API changes in v7.
 
 **Why v6?**
+
 - v7 completely rewrote the API from component-based to function-based
 - v6 maintains backward compatibility with existing code
 - v6 continues to receive bug fixes and security updates
@@ -442,7 +488,7 @@ Downgrade from v7 to v6 due to breaking API changes in v7.
 ```json
 {
   "dependencies": {
-    "next-seo": "^6.6.0"  // NOT v7
+    "next-seo": "^6.6.0" // NOT v7
   }
 }
 ```
@@ -454,6 +500,7 @@ No code changes required when using v6.
 Replace `nextjs-progressbar` (unmaintained) with `nextjs-toploader`.
 
 **Before:**
+
 ```typescript
 import NextNProgress from 'nextjs-progressbar';
 
@@ -468,6 +515,7 @@ export default function App({ Component, pageProps }) {
 ```
 
 **After:**
+
 ```typescript
 import NextTopLoader from 'nextjs-toploader';
 
@@ -486,6 +534,7 @@ export default function App({ Component, pageProps }) {
 For Pages Router compatibility, use the legacy API.
 
 **Before:**
+
 ```typescript
 import { getServerSideSitemapIndex } from 'next-sitemap';
 
@@ -495,6 +544,7 @@ export const getServerSideProps = async (context) => {
 ```
 
 **After:**
+
 ```typescript
 import { getServerSideSitemapIndexLegacy } from 'next-sitemap';
 
@@ -510,6 +560,7 @@ export const getServerSideProps = async (ctx) => {
 #### Notion Image URL Type
 
 **Before:**
+
 ```typescript
 export const customMapImageUrl = (url: string, block: Block): string => {
   if (!url) {
@@ -520,10 +571,14 @@ export const customMapImageUrl = (url: string, block: Block): string => {
 ```
 
 **After:**
+
 ```typescript
-export const customMapImageUrl = (url: string | undefined, block: Block): string => {
+export const customMapImageUrl = (
+  url: string | undefined,
+  block: Block
+): string => {
   if (!url) {
-    return '';  // Don't throw, return empty string
+    return ''; // Don't throw, return empty string
   }
   // ...
 };
@@ -534,18 +589,21 @@ export const customMapImageUrl = (url: string | undefined, block: Block): string
 ### Files Modified
 
 #### Configuration Files
+
 - `next.config.js` - Updated images config and removed deprecated options
 - `tsconfig.json` - Updated moduleResolution and JSX transform
 - `.nvmrc` - Updated Node version
 - `package.json` - Updated all dependencies and engine requirements
 
 #### API Routes
+
 - `pages/api/posts.ts` - Migrated to Notion API v5 dataSources
 - `pages/api/post/index.ts` - Updated Notion imports
 - `pages/api/category.ts` - Migrated to dataSources for properties
 - `pages/api/my-blog-images.ts` - Replaced axios with fetch
 
 #### Core Files
+
 - `core/apis/index.ts` - Complete rewrite from axios to fetch
 - `core/apis/posts.ts` - Updated Notion types
 - `core/queries/posts.ts` - Migrated to TanStack Query v5
@@ -554,6 +612,7 @@ export const customMapImageUrl = (url: string | undefined, block: Block): string
 - `core/utils/notion-client/customImageMap.ts` - Updated URL type handling
 
 #### Components
+
 - `components/Header/Header.tsx` - Updated font import
 - `components/Post/Post.tsx` - Updated TanStack Query hooks
 - `components/Posts/Posts.tsx` - Updated to useSuspenseQuery
@@ -561,12 +620,14 @@ export const customMapImageUrl = (url: string | undefined, block: Block): string
 - `components/Home/Home.tsx` - Updated Notion types
 
 #### Pages
+
 - `pages/_app.tsx` - Updated to NextTopLoader and TanStack Query v5
 - `pages/index.tsx` - Updated Notion types
 - `pages/post/[id].tsx` - Updated Notion types
 - `pages/server-sitemap-index.xml/index.tsx` - Updated to next-sitemap v4 legacy API
 
 #### Moved Files
+
 - `pages/api/constant.ts` → `core/constants.ts` (not an API route)
 - `pages/api/firebase.ts` → `core/firebase.ts` (not an API route)
 - `pages/api/utils.ts` → `core/utils.ts` (not an API route)
@@ -574,22 +635,26 @@ export const customMapImageUrl = (url: string | undefined, block: Block): string
 ## Migration Checklist
 
 ### Phase 1: Prerequisites
+
 - [ ] Update Node.js to 20.19.0+
 - [ ] Update `.nvmrc` file
 - [ ] Backup current codebase
 - [ ] Create a new branch for migration
 
 ### Phase 2: Package Updates
+
 - [ ] Update `package.json` with new versions
 - [ ] Remove deprecated packages (axios, react-query, nextjs-progressbar)
 - [ ] Run `yarn install` or `npm install`
 
 ### Phase 3: Configuration
+
 - [ ] Update `next.config.js`
 - [ ] Update `tsconfig.json`
 - [ ] Update font imports (`@next/font` → `next/font`)
 
 ### Phase 4: Notion API v5
+
 - [ ] Update all Notion import paths
 - [ ] Replace `databases.query` with `dataSources.query`
 - [ ] Update `pages/api/posts.ts`
@@ -597,11 +662,13 @@ export const customMapImageUrl = (url: string | undefined, block: Block): string
 - [ ] Update type definitions
 
 ### Phase 5: Axios to Fetch
+
 - [ ] Rewrite `core/apis/index.ts`
 - [ ] Update `pages/api/my-blog-images.ts`
 - [ ] Test all API endpoints
 
 ### Phase 6: TanStack Query v5
+
 - [ ] Update all import statements
 - [ ] Migrate `useQuery` calls to object syntax
 - [ ] Migrate `useMutation` calls to object syntax
@@ -610,11 +677,13 @@ export const customMapImageUrl = (url: string | undefined, block: Block): string
 - [ ] Update `QueryErrorResetBoundary` usage
 
 ### Phase 7: Other Updates
+
 - [ ] Replace `nextjs-progressbar` with `nextjs-toploader`
 - [ ] Update `next-sitemap` to legacy API
 - [ ] Update TypeScript types
 
 ### Phase 8: Testing
+
 - [ ] Run `yarn build` (or `npm run build`)
 - [ ] Fix any build errors
 - [ ] Test development server (`yarn dev`)
@@ -624,6 +693,7 @@ export const customMapImageUrl = (url: string | undefined, block: Block): string
 - [ ] Verify sitemap generation
 
 ### Phase 9: Deployment
+
 - [ ] Update environment variables if needed
 - [ ] Deploy to staging
 - [ ] Run smoke tests
@@ -632,25 +702,30 @@ export const customMapImageUrl = (url: string | undefined, block: Block): string
 ## Common Issues & Solutions
 
 ### Issue: Node version error
+
 **Error:** `The engine "node" is incompatible with this module`
 
 **Solution:**
+
 ```bash
 nvm install 20.19.0
 nvm use 20.19.0
 ```
 
 ### Issue: Notion API type errors
+
 **Error:** `Property 'properties' does not exist on type 'DatabaseObjectResponse'`
 
 **Solution:** Use `dataSources.retrieve()` instead of reading properties directly from database.
 
 ### Issue: React Query type errors
+
 **Error:** `Type is not assignable to type 'never'`
 
 **Solution:** Update to object-based API and use `useSuspenseQuery` for suspense.
 
 ### Issue: next-seo type errors
+
 **Error:** `Module has no exported member 'DefaultSeoProps'`
 
 **Solution:** Use next-seo v6 instead of v7.
@@ -693,13 +768,12 @@ See [Next.js App Router Migration Guide](https://nextjs.org/docs/app/building-yo
 ## Support
 
 For issues related to this migration, please refer to:
+
 - Project repository issues
 - Next.js documentation
 - Package-specific GitHub issues
 
 ---
 
-**Migration completed on:** 2025-01-13
-**Migrated by:** Claude Code Assistant
 **Original version:** Next.js 13.5.6, React 18.2.0
 **Target version:** Next.js 16.0.2, React 19.0.0

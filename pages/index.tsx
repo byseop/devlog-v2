@@ -3,7 +3,7 @@ import { postApis } from '@core/apis/posts';
 import { GetStaticProps } from 'next';
 
 import type { Response } from '@interfaces/index';
-import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
+import type { PageObjectResponse } from '@notionhq/client/build/src';
 
 export default function HomePage({
   data

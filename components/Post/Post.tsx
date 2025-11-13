@@ -13,13 +13,13 @@ import {
   useGetAdditionalInfo,
   useUpdateLike
 } from '@core/queries/post';
-import { useIsMutating } from 'react-query';
+import { useIsMutating } from '@tanstack/react-query';
 
 import type { ExtendedRecordMap } from 'notion-types';
 import type {
   PageObjectResponse,
   RichTextItemResponse
-} from '@notionhq/client/build/src/api-endpoints';
+} from '@notionhq/client/build/src';
 import type { Response } from '@interfaces/index';
 
 interface IPostProps {
@@ -49,7 +49,9 @@ const Post: React.FC<IPostProps> = ({ id, data, className }) => {
 
   const { mutate: mutateUpdateLike } = useUpdateLike(id);
 
-  const isLikeLoading = useIsMutating(postQueryKey.updateLike(id));
+  const isLikeLoading = useIsMutating({
+    mutationKey: postQueryKey.updateLike(id)
+  });
 
   const cover = postData?.data.post.cover as {
     type: 'external';

@@ -4,7 +4,7 @@ import { createApiSuccessResponse } from '@core/utils';
 
 import type { IAPIError, Response } from '@interfaces/index';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
+import type { PageObjectResponse } from '@notionhq/client/build/src';
 import type { ExtendedRecordMap } from 'notion-types';
 
 export default async function handler(

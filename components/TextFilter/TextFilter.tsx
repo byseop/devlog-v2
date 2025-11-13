@@ -60,7 +60,7 @@ const TextFilter: React.FC<ITextFilterProps> = ({
             )}
           </button>
         </Dialog.Trigger>
-        <Dialog.Portal className={className}>
+        <Dialog.Portal>
           <Dialog.Overlay className={`dialog-overlay ${className}`} />
           <Dialog.Content
             className={`dialog-content text-filter-content ${className}`}

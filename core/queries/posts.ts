@@ -1,10 +1,11 @@
-import { useQuery, UseQueryOptions, useQueryClient } from 'react-query';
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { postApis } from '@core/apis/posts';
 
-import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
+import type { PageObjectResponse } from '@notionhq/client/build/src';
 import type { Response } from '@interfaces/index';
 import type { ExtendedRecordMap } from 'notion-types';
 import { IPostsParams } from '@interfaces/posts';
+import type { UndefinedInitialDataOptions, UseSuspenseQueryOptions } from '@tanstack/react-query';
 
 export const postsQueryKey = {
   posts: (params: IPostsParams) =>
@@ -18,28 +19,30 @@ export const postsQueryKey = {
 
 export const useGetPosts = (
   params: IPostsParams,
-  options?: UseQueryOptions<Response<PageObjectResponse[]>>
+  options?: Partial<UseSuspenseQueryOptions<Response<PageObjectResponse[]>>>
 ) => {
-  return useQuery(
-    postsQueryKey.posts(params),
-    () => postApis.getPosts(params),
-    {
-      ...(options as any)
-    }
-  );
+  return useSuspenseQuery({
+    queryKey: postsQueryKey.posts(params),
+    queryFn: () => postApis.getPosts(params),
+    ...options
+  });
 };
 
 export const useGetPost = (
   id: string,
-  options?: UseQueryOptions<
-    Response<{
-      notionPage: ExtendedRecordMap;
-      post: PageObjectResponse;
-    }>
+  options?: Partial<
+    UndefinedInitialDataOptions<
+      Response<{
+        notionPage: ExtendedRecordMap;
+        post: PageObjectResponse;
+      }>
+    >
   >
 ) => {
-  return useQuery(postsQueryKey.post(id), () => postApis.getPost(id), {
-    ...(options as any),
-    enabled: false
+  return useQuery({
+    queryKey: postsQueryKey.post(id),
+    queryFn: () => postApis.getPost(id),
+    enabled: false,
+    ...options
   });
 };

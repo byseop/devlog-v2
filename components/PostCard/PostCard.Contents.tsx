@@ -4,7 +4,7 @@ import Image from 'next/image';
 import type {
   PageObjectResponse,
   RichTextItemResponse
-} from '@notionhq/client/build/src/api-endpoints';
+} from '@notionhq/client/build/src';
 import Link from 'next/link';
 
 interface IPostCardProps {

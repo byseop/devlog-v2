@@ -6,8 +6,8 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import type { IAPIError, Response } from '@interfaces/index';
 import type {
   PageObjectResponse,
-  QueryDatabaseParameters
-} from '@notionhq/client/build/src/api-endpoints';
+  QueryDataSourceParameters
+} from '@notionhq/client/build/src';
 
 export default async function handler(
   req: NextApiRequest,
@@ -38,7 +38,7 @@ export default async function handler(
   try {
     if (req.method === 'GET') {
       const { query } = req;
-      const filter: QueryDatabaseParameters['filter'] = {
+      const filter: QueryDataSourceParameters['filter'] = {
         and: []
       };
 
@@ -65,8 +65,12 @@ export default async function handler(
         }
       }
 
-      const response = await notion.databases.query({
-        database_id,
+      // Notion API v5: Get database to find its data source
+      const database = await notion.databases.retrieve({ database_id });
+
+      // Query the data source instead of database
+      const response = await notion.dataSources.query({
+        data_source_id: database.id,
         filter,
         sorts: [
           {

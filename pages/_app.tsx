@@ -4,9 +4,9 @@ import { store } from '@core/store';
 import { ThemeProvider } from 'styled-components';
 import { theme } from '@styles/theme';
 import LayoutInner from '@components/Layouts/LayoutInner';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
-import NextNProgress from 'nextjs-progressbar';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import NextTopLoader from 'nextjs-toploader';
 import Script from 'next/script';
 import { DefaultSeo } from 'next-seo';
 import SEO from '../next-seo.config';
@@ -38,7 +38,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={theme}>
           <DefaultSeo {...SEO} />
-          <NextNProgress />
+          <NextTopLoader />
           <Analytics />
           {process.env.NEXT_PUBLIC_APP_ENV === 'production' && (
             <>

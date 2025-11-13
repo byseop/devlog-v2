@@ -7,7 +7,7 @@ import type { ExtendedRecordMap } from 'notion-types';
 import type {
   PageObjectResponse,
   RichTextItemResponse
-} from '@notionhq/client/build/src/api-endpoints';
+} from '@notionhq/client/build/src';
 import type { Response } from '@interfaces/index';
 
 import 'react-notion-x/src/styles.css';

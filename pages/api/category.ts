@@ -22,12 +22,18 @@ export default async function handler(
 
   try {
     if (req.method === 'GET') {
-      const response = await notion.databases.retrieve({
+      // Notion API v5: Get database to find its data source
+      const database = await notion.databases.retrieve({
         database_id: database_id
       });
 
+      // Get the data source to access properties
+      const dataSource = await notion.dataSources.retrieve({
+        data_source_id: database.id
+      });
+
       const data = (
-        response.properties
+        dataSource.properties
           .category as MultiSelectDatabasePropertyConfigResponse
       ).multi_select.options;
 

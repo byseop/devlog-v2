@@ -7,9 +7,9 @@ import type {
   RichTextItemResponse
 } from '@notionhq/client/build/src/api-endpoints';
 
-// Disable automatic revalidation - pages will be cached indefinitely
+// Cache for 1 year (31536000 seconds)
 // Use on-demand revalidation via /api/revalidate to update when needed
-export const revalidate = false;
+export const revalidate = 31536000;
 
 interface PostPageProps {
   params: Promise<{ id: string }>;

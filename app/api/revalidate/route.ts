@@ -16,9 +16,9 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    // Revalidate by tag
+    // Revalidate by tag (Next.js 16 requires 'max' as second parameter)
     const tag = `post-${postId}`;
-    revalidateTag(tag, 'page');
+    revalidateTag(tag, 'max');
 
     console.log(`[Revalidate] Successfully revalidated tag: ${tag} for post ${postId}`);
 

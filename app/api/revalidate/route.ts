@@ -16,11 +16,24 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    revalidatePath(path);
-    return NextResponse.json({ revalidated: true, path, now: Date.now() });
+    // Use 'page' type to revalidate the entire page including all layouts
+    revalidatePath(path, 'page');
+
+    console.log(`[Revalidate] Successfully revalidated path: ${path}`);
+
+    return NextResponse.json({
+      revalidated: true,
+      path,
+      now: Date.now(),
+      message: 'Page cache cleared. Next request will rebuild the page.'
+    });
   } catch (error) {
+    console.error(`[Revalidate] Error revalidating path ${path}:`, error);
     return NextResponse.json(
-      { error: 'Error revalidating' },
+      {
+        error: 'Error revalidating',
+        details: error instanceof Error ? error.message : String(error)
+      },
       { status: 500 }
     );
   }

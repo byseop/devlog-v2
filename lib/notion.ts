@@ -1,6 +1,7 @@
 import { Client } from '@notionhq/client';
 import { NotionAPI } from 'notion-client';
 import { DEFINED_FILTER } from '@core/constants';
+import { processPostImages } from './process-post-images';
 
 import type {
   PageObjectResponse,
@@ -49,6 +50,15 @@ export async function getNotionPost(page_id: string): Promise<{
     page_id
   })) as PageObjectResponse;
   const notionPage = await notionRenderClient.getPage(page_id);
+
+  // Process images: download from Notion and upload to S3
+  // This runs on-demand when a post is first accessed or revalidated
+  try {
+    await processPostImages(notionPage, response);
+  } catch (error) {
+    console.error(`Error processing images for post ${page_id}:`, error);
+    // Don't fail the entire request if image processing fails
+  }
 
   return {
     notionPage,

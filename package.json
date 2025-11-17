@@ -7,12 +7,14 @@
   },
   "scripts": {
     "dev": "next dev",
+    "prebuild": "npx tsx scripts/process-notion-images.ts",
     "build": "next build",
     "postbuild": "next-sitemap",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.932.0",
     "@notionhq/client": "^2.2.2",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-popover": "^1.1.15",
@@ -50,6 +52,8 @@
   "devDependencies": {
     "@types/styled-components": "^5.1.35",
     "babel-plugin-styled-components": "^2.1.4",
+    "dotenv": "^17.2.3",
+    "dotenv-cli": "^11.0.0",
     "eslint": "^9.39.1",
     "eslint-config-next": "^16.0.2",
     "next-transpile-modules": "^10.0.1"

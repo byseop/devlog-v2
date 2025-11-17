@@ -2,6 +2,7 @@ import { Client } from '@notionhq/client';
 import { NotionAPI } from 'notion-client';
 import { DEFINED_FILTER } from '@core/constants';
 import { processPostImages } from './process-post-images';
+import { unstable_cache } from 'next/cache';
 
 import type {
   PageObjectResponse,
@@ -18,6 +19,7 @@ const isProduction = process.env.NEXT_PUBLIC_APP_ENV === 'production';
 const notion = new Client({ auth });
 const notionRenderClient = new NotionAPI({ activeUser, authToken });
 
+// 포스트 목록 가져오기 (캐싱 없음 - 항상 최신 데이터)
 export async function getNotionPosts(): Promise<PageObjectResponse[]> {
   const filter: QueryDatabaseParameters['filter'] = {
     and: []
@@ -42,7 +44,8 @@ export async function getNotionPosts(): Promise<PageObjectResponse[]> {
   return response.results as PageObjectResponse[];
 }
 
-export async function getNotionPost(page_id: string): Promise<{
+// 원본 함수: 단일 포스트 가져오기
+async function fetchNotionPost(page_id: string): Promise<{
   notionPage: ExtendedRecordMap;
   post: PageObjectResponse;
 }> {
@@ -65,3 +68,14 @@ export async function getNotionPost(page_id: string): Promise<{
     post: response
   };
 }
+
+// 캐시와 태그가 적용된 함수
+export const getNotionPost = (page_id: string) =>
+  unstable_cache(
+    () => fetchNotionPost(page_id),
+    [`notion-post-${page_id}`],
+    {
+      tags: [`post-${page_id}`],
+      revalidate: 31536000 // 1년
+    }
+  )();

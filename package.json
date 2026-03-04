@@ -29,7 +29,7 @@
     "crypto-js": "^4.2.0",
     "dayjs": "^1.11.19",
     "firebase": "^12.5.0",
-    "next": "^16.0.2",
+    "next": "16.0.10",
     "next-seo": "^6.6.0",
     "next-sitemap": "^4.2.3",
     "nextjs-toploader": "^3.9.17",

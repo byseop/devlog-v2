@@ -1,6 +1,7 @@
 import Post from '@components/Post';
 import { getNotionPost, getNotionPosts } from '@/lib/notion';
 import { createApiSuccessResponse } from '@core/utils';
+import { notFound, redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 import type {
   PageObjectResponse,
@@ -98,12 +99,22 @@ export async function generateStaticParams() {
 export default async function PostPage({ params }: PostPageProps) {
   const { id } = await params;
 
-  const postId = getCleanId(id);
+  const decoded = decodeURIComponent(id);
 
-  const postData = await getNotionPost(postId);
-  const data = createApiSuccessResponse(postData);
+  // Internal/legacy links carry an "@"-prefixed id (see Post linkMapper).
+  // Redirect them to the canonical, prerendered path instead of rendering
+  // dynamically, which can throw inside react-notion-x.
+  if (decoded.startsWith('@')) {
+    redirect(`/post/${decoded.slice(1)}`);
+  }
 
-  return <Post id={postId} data={data} />;
+  try {
+    const postData = await getNotionPost(decoded);
+    const data = createApiSuccessResponse(postData);
+    return <Post id={decoded} data={data} />;
+  } catch {
+    notFound();
+  }
 }
 
 const getCleanId = (id: string) =>

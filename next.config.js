@@ -10,6 +10,14 @@ module.exports = {
       {
         protocol: 'https',
         hostname: 'www.notion.so'
+      },
+      {
+        protocol: 'https',
+        hostname: 'app.notion.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'static.byseop.com'
       }
     ]
   },

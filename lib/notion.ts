@@ -19,6 +19,37 @@ const isProduction = process.env.NEXT_PUBLIC_APP_ENV === 'production';
 const notion = new Client({ auth });
 const notionRenderClient = new NotionAPI({ activeUser, authToken });
 
+// Notion's private API now wraps each record one level deeper:
+//   { spaceId, value: { value: <record>, role } } instead of { role, value: <record> }
+// notion-client 7.x doesn't unwrap this, so react-notion-x reads `value.type` as
+// undefined and crashes (e.g. uuidToId(undefined).replaceAll). Flatten it back.
+const unwrapStore = (store?: Record<string, { role?: unknown; value?: unknown }>) => {
+  if (!store) return;
+  for (const id of Object.keys(store)) {
+    const entry = store[id] as {
+      role?: unknown;
+      value?: { value?: unknown; role?: unknown };
+    };
+    if (
+      entry &&
+      entry.role === undefined &&
+      entry.value &&
+      entry.value.value !== undefined &&
+      entry.value.role !== undefined
+    ) {
+      store[id] = { role: entry.value.role, value: entry.value.value };
+    }
+  }
+};
+
+function normalizeRecordMap(recordMap: ExtendedRecordMap): ExtendedRecordMap {
+  unwrapStore(recordMap.block);
+  unwrapStore(recordMap.collection);
+  unwrapStore(recordMap.collection_view);
+  unwrapStore(recordMap.notion_user);
+  return recordMap;
+}
+
 // 포스트 목록 가져오기 (캐싱 없음 - 항상 최신 데이터)
 export async function getNotionPosts(): Promise<PageObjectResponse[]> {
   const filter: QueryDatabaseParameters['filter'] = {
@@ -52,7 +83,9 @@ async function fetchNotionPost(page_id: string): Promise<{
   const response = (await notion.pages.retrieve({
     page_id
   })) as PageObjectResponse;
-  const notionPage = await notionRenderClient.getPage(page_id);
+  const notionPage = normalizeRecordMap(
+    await notionRenderClient.getPage(page_id)
+  );
 
   // Process images: download from Notion and upload to S3
   // This runs on-demand when a post is first accessed or revalidated

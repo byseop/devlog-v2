@@ -72,6 +72,11 @@ Required environment variables (see `.env.development` for reference):
 
 **Important**: `.env*` files are in `.gitignore`. Never commit these files.
 
+**Cloud sessions (Claude Code on the web, shared `byseop` environment)**: the SessionStart hook `.claude/hooks/session-start.sh` exports secrets at session start. It is a verbatim copy of the canonical file in the gamer4info repo (tests live there in `scripts/ops/test-session-start-hook.sh`) — change it there and copy it back here.
+- In cloud sessions only, it reads AWS SSM Parameter Store `/shared/<NAME>` and `/devlog-v2/<NAME>` (SecureString, ap-northeast-2) and exports each as `<NAME>` (project values override shared ones). Add a value from an admin machine: `aws ssm put-parameter --region ap-northeast-2 --type SecureString --name /devlog-v2/NOTION_API_KEY --value ...`
+- A name that is already set in the environment or in `.env*` is never overwritten, so local work is unaffected. During the transition, cloud env vars `DEVLOGV2_<X>` are also mapped to `<X>` as a fallback (SSM wins).
+- Dependencies are installed with `yarn install --frozen-lockfile` (chosen from `yarn.lock`). As of 2026-10-06 `yarn.lock` is out of date with `package.json`, so this step only prints a warning; run `yarn install` manually when you need `node_modules`.
+
 ### Static Generation
 
 The blog uses Next.js ISR (Incremental Static Regeneration):

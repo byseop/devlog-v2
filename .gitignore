@@ -41,3 +41,11 @@ sitemap.*.xml
 sitemap.xml
 sitemap*.xml
 .idea
+
+# Claude Code: commit only the shared settings + SessionStart hook; keep local state
+# (settings.local.json, worktrees, agents, commands, plans, other hooks, ...) out.
+.claude/*
+!.claude/settings.json
+!.claude/hooks/
+.claude/hooks/*
+!.claude/hooks/session-start.sh

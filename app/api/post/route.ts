@@ -1,6 +1,7 @@
 import { Client } from '@notionhq/client';
 import { NotionAPI } from 'notion-client';
 import { createApiSuccessResponse } from '@core/utils';
+import { NOTION_PRIVATE_API_BASE_URL } from '@core/constants';
 import { NextRequest, NextResponse } from 'next/server';
 
 import type { IAPIError, Response } from '@interfaces/index';
@@ -31,6 +32,7 @@ export async function GET(request: NextRequest) {
   }
 
   const notionRenderClient = new NotionAPI({
+    apiBaseUrl: NOTION_PRIVATE_API_BASE_URL,
     activeUser,
     authToken
   });

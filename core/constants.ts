@@ -29,3 +29,7 @@ export const DEFINED_FILTER = {
       type: 'rich_text'
     } as const)
 } as const;
+
+// Notion moved its private API from www.notion.so to app.notion.com, and
+// notion-client 7.x still defaults to the old host, so pass it explicitly.
+export const NOTION_PRIVATE_API_BASE_URL = 'https://app.notion.com/api/v3';

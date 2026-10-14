@@ -1,6 +1,6 @@
 import { Client } from '@notionhq/client';
 import { NotionAPI } from 'notion-client';
-import { DEFINED_FILTER } from '@core/constants';
+import { DEFINED_FILTER, NOTION_PRIVATE_API_BASE_URL } from '@core/constants';
 import { processPostImages } from './process-post-images';
 import { unstable_cache } from 'next/cache';
 
@@ -17,7 +17,11 @@ const authToken = process.env.NOTION_AUTH_TOKEN!;
 const isProduction = process.env.NEXT_PUBLIC_APP_ENV === 'production';
 
 const notion = new Client({ auth });
-const notionRenderClient = new NotionAPI({ activeUser, authToken });
+const notionRenderClient = new NotionAPI({
+  apiBaseUrl: NOTION_PRIVATE_API_BASE_URL,
+  activeUser,
+  authToken
+});
 
 // Notion's private API now wraps each record one level deeper:
 //   { spaceId, value: { value: <record>, role } } instead of { role, value: <record> }
